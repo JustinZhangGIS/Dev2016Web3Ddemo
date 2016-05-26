@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>二三维联动揭秘</title>
+    <link rel="stylesheet" href="http://tm.arcgisonline.cn:8038/App101/arcgis_js_api/4.0/esri/css/main.css">
+    <!--20160509 wfh style.css-->
+    <link rel="stylesheet" href="../../commons/css/style4.0Demo.css">
+    <link rel="stylesheet" href="../../commons/css/style-rene.css">
+    <link rel="stylesheet" href="../../commons/libs/codemirror/codemirror.css">
+    <link rel="stylesheet" href="../../commons/libs/codemirror/monokai.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/4.0demo.css">
+    <!--20160509 wfh 这三行行不能删掉  codemirror.js,javascript.js，jsx.js-->
+    <script src="../../commons/libs/codemirror/codemirror.js"></script>
+    <script src="../../commons/libs/codemirror/mode/javascript/javascript.js"></script>
+    <script src="../../commons/libs/codemirror/mode/jsx/jsx.js"></script>
+
+    <script src="../../commons/js/dojoConfig4.0.js"></script>
+    <script src="http://tm.arcgisonline.cn:8038/App101/arcgis_js_api/4.0/init.js"></script>
+    <script src="../../frame/js/plugin/jquery.min.js"></script>
+    <style>
+        .light .esri-widget,
+        .light .esri-widget-button
+            /*.light .esri-menu*/
+            /*.light .esri-popup-main,*/
+            /*.light .esri-popup .esri-pointer-direction,*/
+            /*.light .esri-button */
+        {
+            /*background-color: lightskyblue;*/
+            color: green;
+        }
+
+        .light .esri-widget-button:focus,
+        .light .esri-widget-button:hover,
+        .light .esri-menu li:focus,
+        .light .esri-menu li:hover {
+            /*background-color: lightskyblue;*/
+            color: green;
+        }
+
+        .light .esri-button:focus,
+        .light .esri-button:hover {
+            color: green;
+        }
+
+    </style>
+    <script>
+        var map, view;
+
+        require([
+            "esri/Map",
+            "esri/WebMap",
+            "esri/Graphic",
+            "esri/config",
+            "esri/views/MapView",
+            "esri/views/SceneView",
+            "esri/layers/TileLayer",
+
+            "esri/core/watchUtils",
+            "esri/core/Scheduler",
+
+            "esri/widgets/Home",
+            "esri/widgets/Search",
+
+            "dojo/domReady!"
+        ], function(
+                Map,
+                WebMap,Graphic,esriConfig,
+                MapView, SceneView,TileLayer,
+                watchUtils,
+                Scheduler,
+                Home,Search
+        ) {
+
+//            map = new Map({
+//                basemap: 'satellite',
+//                ground: 'world-elevation'
+//            });
+            esriConfig.portalUrl = "http://zhangjian.esricloud.com/arcgis";
+            var map = new WebMap({
+                portalItem: { // autocasts as new PortalItem()
+//                    id: "5c80c56bef044ebca5d6dbc85f2f4bbb"//美国数据， 网络不稳定。
+//                    id: "ce42b8f740a14fcea1ee6f63a26ea6df"
+                    id:'800af9dfd09c420ebd9bed58bf1dd5f2'
+                },
+                basemap: {//自定义底图。
+                    baseLayers:[
+                        new TileLayer({
+                            url:"http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+                            title:"午夜蓝"
+                        })
+                    ]
+                }
+
+            });
+            view1 = new MapView({
+                id: 'view1',
+                container: 'view1Div',
+                map: map,
+                padding: {
+                    top: 110
+                }
+            });
+            view1.then(function(){
+                var homeBtn1 = new Home({
+                    viewModel: {
+                        view: view1
+                    }
+                });
+                homeBtn1.startup();
+                view1.ui.add(homeBtn1, { position: "top-left", index: 2 });
+                // INITIALIZE SEARCH //
+                var search1 = new Search({
+                    viewModel: {
+                        view: view1,
+                        autoNavigate: true,
+                        autoSelect: true,
+                        highlightEnabled: true,
+                        labelEnabled: false,
+                        popupEnabled: false,
+                        showPopupOnSelect: false
+                    }
+                });
+                search1.startup();
+                view1.ui.add(search1, { position: "top-right", index: 0 });//ok
+            });
+            view2 = new MapView({
+                id: 'view2',
+                container: 'view2Div',
+                map: map,
+                constraints: {
+                    // Disable zoom snapping to get the best synchonization
+//                    snapToZoom: false//这个设置为false底图就会有格网。 但对SceneView没影响 - 李显发现的。
+                },
+                padding: {
+                    top: 110
+                }
+            });
+            view2.then(function(){
+                var homeBtn2 = new Home({
+                    viewModel: {
+                        view: view2
+                    }
+                });
+                homeBtn2.startup();
+                view2.ui.add(homeBtn2, { position: "top-left", index: 2 });
+                // INITIALIZE SEARCH //
+                var search2 = new Search({
+                    viewModel: {
+                        view: view2,
+                        autoNavigate: true,
+                        autoSelect: true,
+                        highlightEnabled: true,
+                        labelEnabled: false,
+                        popupEnabled: false,
+                        showPopupOnSelect: false
+                    }
+                });
+                search2.startup();
+                view2.ui.add(search2, { position: "top-right", index: 0 });//ok
+            });
+            /**
+             * utility method that synchronizes the viewpoint of timeSlider view to other views
+             */
+            var synchronizeView = function(view, others) {
+                others = Array.isArray(others) ? others : [others];
+
+                var viewpointWatchHandle;
+                var viewStationaryHandle;
+                var otherInteractHandlers;
+                var scheduleHandle;
+
+                var clear = function() {
+                    if (otherInteractHandlers) {
+                        otherInteractHandlers.forEach(function(handle) {
+                            handle.remove();
+                        });
+                    }
+                    viewpointWatchHandle && viewpointWatchHandle.remove();
+                    viewStationaryHandle && viewStationaryHandle.remove();
+                    scheduleHandle && scheduleHandle.remove();
+                    otherInteractHandlers = viewpointWatchHandle =
+                            viewStationaryHandle = scheduleHandle = null;
+                };
+
+                var interactWatcher = view.watch('interacting,animation',
+                        function(newValue) {
+                            if (!newValue) {
+                                return;
+                            }
+                            if (viewpointWatchHandle || scheduleHandle) {
+                                return;
+                            }
+
+                            // 开始更新其他的视图
+                            scheduleHandle = Scheduler.schedule(function() {
+                                scheduleHandle = null;
+                                viewpointWatchHandle = view.watch('viewpoint',
+                                        function(newValue) {
+                                            others.forEach(function(otherView) {
+                                                otherView.viewpoint = newValue;
+                                            });
+                                        });
+                            });
+
+                            // stop as soon as another view starts interacting, like if the user starts panning
+                            otherInteractHandlers = others.map(function(otherView) {
+                                return watchUtils.watch(otherView,
+                                        'interacting,animation',
+                                        function(value) {
+                                            if (value) {
+                                                clear();
+                                            }
+                                        });
+                            });
+
+                            // or stop when the view is stationary again
+                            viewStationaryHandle = watchUtils.whenTrue(view,
+                                    'stationary', clear);
+                        });
+
+                return {
+                    remove: function() {
+                        this.remove = function() {};
+                        clear();
+                        interactWatcher.remove();
+                    }
+                }
+            };
+
+            /**
+             * utility method that synchronizes the viewpoints of multiple views
+             */
+            var synchronizeViews = function(views) {
+                var handles = views.map(function(view, idx, views) {
+                    var others = views.concat();
+                    others.splice(idx, 1);
+                    return synchronizeView(view, others);
+                });
+
+                return {
+                    remove: function() {
+                        this.remove = function() {};
+                        handles.forEach(function(h) {
+                            h.remove();
+                        });
+                        handles = null;
+                    }
+                }
+            };
+
+            // bind the views
+//            synchronizeViews([view1, view2]);
+            $('#doChange3DId').click(function(){
+                view2 = new SceneView({
+                    id: 'view2',
+                    container: 'view2Div',
+                    map: map,
+                    zoom:3,
+                    //确定地图中心点
+                    center:   {"x":11176703,"y":3741325,"spatialReference":{"wkid":102100}},
+                    constraints: {
+                        // Disable zoom snapping to get the best synchonization
+                        snapToZoom: false
+                    },
+                    padding: {
+                        top: 110
+                    }
+                });
+                view2.then(function(){
+                    var homeBtn2 = new Home({
+                        viewModel: {
+                            view: view2
+                        }
+                    });
+                    homeBtn2.startup();
+                    view2.ui.add(homeBtn2, { position: "top-left", index: 2 });
+                    // INITIALIZE SEARCH //
+                    var search2 = new Search({
+                        viewModel: {
+                            view: view2,
+                            autoNavigate: true,
+                            autoSelect: true,
+                            highlightEnabled: true,
+                            labelEnabled: false,
+                            popupEnabled: false,
+                            showPopupOnSelect: false
+                        }
+                    });
+                    search2.startup();
+                    view2.ui.add(search2, { position: "top-right", index: 0 });//ok
+                });
+                view1 = new MapView({
+                    id: 'view1',
+                    container: 'view1Div',
+                    map: map,
+                    zoom:3,
+                    //确定地图中心点
+                    center:   {"x":11176703,"y":3741325,"spatialReference":{"wkid":102100}},
+                    padding: {
+                        top: 110
+                    }
+                });
+                view1.then(function(){
+                    var homeBtn1 = new Home({
+                        viewModel: {
+                            view: view1
+                        }
+                    });
+                    homeBtn1.startup();
+                    view1.ui.add(homeBtn1, { position: "top-left", index: 2 });
+                    // INITIALIZE SEARCH //
+                    var search1 = new Search({
+                        viewModel: {
+                            view: view1,
+                            autoNavigate: true,
+                            autoSelect: true,
+                            highlightEnabled: true,
+                            labelEnabled: false,
+                            popupEnabled: false,
+                            showPopupOnSelect: false
+                        }
+                    });
+                    search1.startup();
+                    view1.ui.add(search1, { position: "top-right", index: 0 });//ok
+                });
+                //1、平移 联动
+                synchronizeViews([view1, view2]);
+                //2、点击联动
+                view2.on("click", function (event) {
+                    var mappoint = event.mapPoint;
+                    var features = event.target.popup.features;
+                    var location = event.target.popup.location;
+                    //手动打开弹出框  start
+                    view1.popup.open({
+                        features: features,
+                        location: location
+                    });
+                    //手动打开弹出框  end
+                });
+            });
+        });
+    </script>
+</head>
+
+<body class="light">
+<div class="application">
+    <div class="applicationBar orange" style="float: left;">
+        <div class="content">
+            <img src="css/top.png" style="float: left;"/>
+            <!--<div class="cartouche">-->
+                <!--<span class="label">4.0</span>-->
+            <!--</div>-->
+            <div class="main" style="position: absolute;left: 120px;top: -10px;" >
+                <!--<span class="title">JS API 新特性-&#45;&#45;带来3D</span>-->
+                <span class="title">二三维联动揭秘</span>
+            </div>
+        </div>
+        <button class="showcode ui-button">代码</button>
+        <button class="doChange3D ui-button" id="doChange3DId">3D</button>
+    </div>
+    <div id="view1Div" style="float: left; width: 50%; height: 100%;"></div>
+    <div id="view2Div" style="float: left; width: 50%; height: 100%;">
+        <img src="css/footer.png" style="position: absolute;right: 0;bottom: 16px;;"/>
+        <div id="layersWidgetDivWrapper" class="shadowed">
+            <div id="layersWidgetDiv"></div>
+        </div>
+        <div id="code" class="code manual right shadowed" style="width: 750px;height:600px;">
+            <textarea id="codemirror">
+esriConfig.portalUrl = "http://zhangjian.esricloud.com/arcgis"
+//构建WebMap
+var map = new WebMap({
+    portalItem: {
+        id: "ce42b8f740a14fcea1ee6f63a26ea6df"
+    }
+});
+//二维视角
+view1 = new MapView({
+    id: 'view1',
+    container: 'view1Div',
+    map: map,
+    padding: {
+        top: 100
+    }
+});
+//三维视角
+view2 = new SceneView({
+    id: 'view2',
+    container: 'view2Div',
+    map: map,
+    constraints: {
+    // Disable zoom snapping to get the best synchonization
+        snapToZoom: false
+    },
+    padding: {
+        top: 100
+    }
+});
+//平移 联动
+synchronizeViews([view1, view2]);
+
+......
+// 开始更新其他的视图，使用.watch()监听视图的变动
+scheduleHandle = Scheduler.schedule(function() {
+      scheduleHandle = null;
+      viewpointWatchHandle = view.watch('viewpoint',
+          function(newValue) {
+              others.forEach(function(otherView) {
+                    otherView.viewpoint = newValue;
+              });
+          });
+});
+            </textarea>
+        </div>
+    </div>
+
+</div>
+<script src="../../commons/codestuff.js"></script>
+</body>
+</html>

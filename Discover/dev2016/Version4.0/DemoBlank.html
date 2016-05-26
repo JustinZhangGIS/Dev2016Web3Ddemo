@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>空白</title>
+    <link rel="stylesheet" href="http://tm.arcgisonline.cn:8038/App101/arcgis_js_api/4.0/esri/css/main.css">
+    <!--20160509 wfh style.css-->
+    <link rel="stylesheet" href="../../commons/css/style4.0Demo.css">
+    <link rel="stylesheet" href="../../commons/css/style-rene.css">
+    <link rel="stylesheet" href="../../commons/libs/codemirror/codemirror.css">
+    <link rel="stylesheet" href="../../commons/libs/codemirror/monokai.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/4.0demo.css">
+    <!--20160509 wfh 这三行行不能删掉  codemirror.js,javascript.js，jsx.js-->
+    <script src="../../commons/libs/codemirror/codemirror.js"></script>
+    <script src="../../commons/libs/codemirror/mode/javascript/javascript.js"></script>
+    <script src="../../commons/libs/codemirror/mode/jsx/jsx.js"></script>
+
+    <script src="../../commons/js/dojoConfig4.0.js"></script>
+    <script src="http://tm.arcgisonline.cn:8038/App101/arcgis_js_api/4.0/init.js"></script>
+    <script src="../../frame/js/plugin/jquery.min.js"></script>
+    <style>
+        #paneDiv {
+            position: absolute;
+            top: 70px;
+            right: 18px;
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            z-index: 100;
+        }
+        .light .esri-widget,
+        .light .esri-widget-button
+            /*.light .esri-menu*/
+            /*.light .esri-popup-main,*/
+            /*.light .esri-popup .esri-pointer-direction,*/
+            /*.light .esri-button */
+        {
+            /*background-color: lightskyblue;*/
+            color: dodgerblue;
+        }
+
+        .light .esri-widget-button:focus,
+        .light .esri-widget-button:hover,
+        .light .esri-menu li:focus,
+        .light .esri-menu li:hover {
+            /*background-color: lightskyblue;*/
+            color: dodgerblue;
+        }
+
+        .light .esri-button:focus,
+        .light .esri-button:hover {
+            color: dodgerblue;
+        }
+    </style>
+    <script>
+        var map, view;
+
+        require([
+            "esri/Map",
+            "esri/WebMap",
+            "esri/Graphic",
+            "esri/config",
+            "esri/views/MapView",
+            "esri/views/SceneView",
+            "esri/layers/TileLayer",
+
+            "esri/core/watchUtils",
+            "esri/core/Scheduler",
+
+            "esri/widgets/Home",
+            "esri/widgets/Search",
+
+            "esri/layers/FeatureLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/symbols/PointSymbol3D",
+            "esri/symbols/IconSymbol3DLayer",
+            "esri/symbols/ObjectSymbol3DLayer",
+
+            "dojo/on",
+            "dojo/dom",
+            "dojo/domReady!"
+        ], function(
+                Map,
+                WebMap,Graphic,esriConfig,
+                MapView, SceneView,TileLayer,
+                watchUtils,
+                Scheduler,
+                Home,Search,
+                FeatureLayer,SimpleRenderer,PointSymbol3D,
+                IconSymbol3DLayer,ObjectSymbol3DLayer,
+                on,dom
+        ) {
+            var iconSymbol, iconSymbolRenderer, objectSymbol,
+                    objectSymbolRenderer, featureLayer;
+            var map = new Map({
+                basemap: {//自定义底图。
+                    baseLayers:[
+                        new TileLayer({
+                            url:"http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+                            title:"午夜蓝"
+                        })
+                    ]
+                },
+                ground: 'world-elevation'
+            });
+            var view = new SceneView({
+                container: "viewDiv",
+                map: map,
+                camera: {
+                    position: [116, 40, 1932626],
+                    tilt: 10,
+                    zoom: 6
+                },
+                padding: {
+                    top: 110
+                }
+
+            });
+            view.then(function(){
+                var homeBtn1 = new Home({
+                    viewModel: {
+                        view: view1
+                    }
+                });
+                homeBtn.startup();
+                view.ui.add(homeBtn, { position: "top-left", index: 2 });
+                // INITIALIZE SEARCH //
+                var search = new Search({
+                    viewModel: {
+                        view: view,
+                        autoNavigate: true,
+                        autoSelect: true,
+                        highlightEnabled: true,
+                        labelEnabled: false,
+                        popupEnabled: false,
+                        showPopupOnSelect: false
+                    }
+                });
+                search.startup();
+                view.ui.add(search1, { position: "top-right", index: 0 });//ok
+            });
+
+
+        });
+    </script>
+</head>
+
+<body class="light">
+<div class="application">
+    <div class="applicationBar orange" style="float: left;">
+        <div class="content">
+            <img src="css/top.png" style="float: left;"/>
+            <div class="main" style="position: absolute;left: 120px;top: -10px;">
+                <span class="title">二三维联动揭秘</span>
+            </div>
+        </div>
+        <button class="showcode ui-button">代码</button>
+    </div>
+    <div id="viewDiv" style="position:absolute;left: 0;top: 0; width: 100%; height: 100%;">
+        <img src="css/footer.png" style="position: absolute;right: 0;bottom: 16px;;"/>
+        <div id="layersWidgetDivWrapper" class="shadowed">
+            <div id="layersWidgetDiv"></div>
+        </div>
+        <div id="code" class="code manual right shadowed" style="width: 500px;height:600px;">
+            <textarea id="codemirror">
+//使用原生符号化渲染
+objectSymbol = new PointSymbol3D({
+symbolLayers: [new ObjectSymbol3DLayer({
+    width: 70000,
+    height: 100000,
+    resource: {
+        primitive: "cone"
+    },
+        material: {
+            color: "#FFD700"
+        }
+    })]
+});
+objectSymbolRenderer = new SimpleRenderer({
+    symbol: objectSymbol
+});
+//创建自定义3d符号化渲染
+defineSymbol=new PointSymbol3D({
+    symbolLayers: [new ObjectSymbol3DLayer({
+        width: 70000,
+        resource: {
+            href: 'QiChe.json'
+        }
+    })]
+});
+defineSymbolRenderer = new SimpleRenderer({
+    symbol: defineSymbol
+});
+//添加要素图层并使用符号化渲染
+featureLayer = new FeatureLayer({
+    url: "...",
+    renderer: objectSymbolRenderer,
+});
+map.add(featureLayer);
+            </textarea>
+        </div>
+    </div>
+
+</div>
+<script src="../../commons/codestuff.js"></script>
+</body>
+</html>
