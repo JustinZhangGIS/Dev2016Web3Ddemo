@@ -2,22 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a3fad73-2aa0-4a4e-a120-542053bc31bb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/Version4.0/3dGraphic.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoWatch.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoWebScene.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/Version4.0/environment.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/Version4.0/extendRenderer.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/Version4.0/flytest.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/Version4.0/portal_slides.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/Demo2_3D.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/Demo2_3D.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/Demo3DSymbol.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/Demo3DSymbol.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/DemoBlank.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoBlank.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/DemoCamera.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoCamera.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/DemoGlobleLocal.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoGlobleLocal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/DemoVectorTile.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoVectorTile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
     </list>
     <ignored path="Discover.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -306,6 +291,13 @@
       <option name="number" value="Default" />
       <updated>1464283213718</updated>
     </task>
+    <task id="LOCAL-00001" summary="add2">
+      <created>1464309087851</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1464309087851</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -314,6 +306,7 @@
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973656" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -333,6 +326,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add2" />
+    <option name="LAST_COMMIT_MESSAGE" value="add2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
