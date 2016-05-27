@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>Map和View分离</title>
+    <link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">
+    <link rel="stylesheet" href="../../commons/css/style4.0Demo.css">
+    <link rel="stylesheet" href="../../commons/css/style-rene.css">
+    <link rel="stylesheet" href="../../commons/libs/codemirror/codemirror.css">
+    <link rel="stylesheet" href="../../commons/libs/codemirror/monokai.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/4.0demo.css">
+    <script src="../../commons/libs/codemirror/codemirror.js"></script>
+    <script src="../../commons/libs/codemirror/mode/javascript/javascript.js"></script>
+    <script src="../../commons/libs/codemirror/mode/jsx/jsx.js"></script>
+
+    <script src="../../commons/js/dojoConfig4.0.js"></script>
+    <script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>
+    <script src="../../frame/js/plugin/jquery.min.js"></script>
+    <style>
+        .light .esri-widget,
+        .light .esri-widget-button
+            /*.light .esri-menu*/
+            /*.light .esri-popup-main,*/
+            /*.light .esri-popup .esri-pointer-direction,*/
+            /*.light .esri-button */
+        {
+            /*background-color: lightskyblue;*/
+            color: green;
+        }
+
+        .light .esri-widget-button:focus,
+        .light .esri-widget-button:hover,
+        .light .esri-menu li:focus,
+        .light .esri-menu li:hover {
+            /*background-color: lightskyblue;*/
+            color: green;
+        }
+
+        .light .esri-button:focus,
+        .light .esri-button:hover {
+            color: green;
+        }
+
+    </style>
+    <script>
+        var map, view;
+
+        require([
+            "esri/Map",
+            "esri/WebMap",
+            "esri/Graphic",
+            "esri/config",
+            "esri/views/MapView",
+            "esri/views/SceneView",
+            "esri/layers/TileLayer",
+
+            "esri/core/watchUtils",
+            "esri/core/Scheduler",
+
+            "esri/widgets/Home",
+            "esri/widgets/Search",
+
+            "dojo/domReady!"
+        ], function(
+                Map,
+                WebMap,Graphic,esriConfig,
+                MapView, SceneView,TileLayer,
+                watchUtils,
+                Scheduler,
+                Home,Search
+        ) {
+
+
+            esriConfig.portalUrl = "http://zhangjian.esricloud.com/arcgis";
+            var webMap = new WebMap({
+                portalItem: { // autocasts as new PortalItem()
+                    id:'800af9dfd09c420ebd9bed58bf1dd5f2'
+                },
+                basemap: "streets"
+            });
+            view1 = new MapView({
+                id: 'view1',
+                container: 'view1Div',
+                map: webMap,
+                padding: {
+                    top: 110
+                }
+            });
+            view1.then(function(){
+                var homeBtn1 = new Home({
+                    viewModel: {
+                        view: view1
+                    }
+                });
+                homeBtn1.startup();
+                view1.ui.add(homeBtn1, { position: "top-left", index: 2 });
+
+            });
+            view2 = new SceneView({
+                id: 'view2',
+                container: 'view2Div',
+                map: webMap,
+                zoom:3,
+                //确定地图中心点
+                center:   {"x":11176703,"y":3741325,"spatialReference":{"wkid":102100}},
+                constraints: {
+                    // Disable zoom snapping to get the best synchonization
+                    snapToZoom: false
+                },
+                padding: {
+                    top: 110
+                }
+            });
+            view2.then(function(){
+                var homeBtn2 = new Home({
+                    viewModel: {
+                        view: view2
+                    }
+                });
+                homeBtn2.startup();
+                view2.ui.add(homeBtn2, { position: "top-left", index: 2 });
+            });
+            view3 = new SceneView({
+                id: 'view3',
+                container: 'view3Div',
+                map: webMap,
+                zoom:6,
+                //确定地图中心点
+                center:   {"x":11176703,"y":3741325,"spatialReference":{"wkid":102100}},
+                extent: {//优先级其次
+                    xmax: -10834217,
+                    xmin: -10932882,
+                    ymax: 4493918,
+                    ymin: 4432667, spatialReference: {wkid: 3857}
+                },
+                camera:{
+                    heading: 353.44944298202756,
+                    tilt: 19.265392107864717,
+                    position:{
+                        x: 12613839.615503423,
+                        y: 1594699.5828803466,
+                        z: 5060792.723561829,
+                        "spatialReference":{"wkid":102100}
+                    }
+                },
+                padding: {
+                    top: 110
+                }
+            });
+            view3.then(function(){
+                var homeBtn3 = new Home({
+                    viewModel: {
+                        view: view3
+                    }
+                });
+                homeBtn3.startup();
+                view3.ui.add(homeBtn3, { position: "top-left", index: 2 });
+            });
+            view3.then(function() {
+                view3.watch("camera", function (newvalue, oldvalue, property, object) {
+                    console.log("New Camera Value:", newvalue)
+                })
+            });
+        });
+    </script>
+</head>
+
+<body class="light">
+<div class="application">
+    <div class="applicationBar orange" style="float: left;">
+        <div class="content">
+            <img src="css/top.png" style="float: left;"/>
+            <!--<div class="cartouche">-->
+                <!--<span class="label">4.0</span>-->
+            <!--</div>-->
+            <div class="main" style="position: absolute;left: 120px;top: -10px;" >
+                <!--<span class="title">JS API 新特性-&#45;&#45;带来3D</span>-->
+                <span class="title">Map和View分离</span>
+            </div>
+        </div>
+        <button class="showcode ui-button">代码</button>
+    </div>
+    <div id="view1Div" style="position: absolute;right: 0;top: 0; width: 50%; height: 50%;"></div>
+    <div id="view2Div" style="position: absolute;right: 0;bottom: 0; width: 50%; height: 50%;"></div>
+    <div id="view3Div" style="position: absolute;left: 0;top: 0; width: 50%; height: 100%;"></div>
+        <img src="css/footer.png" style="position: absolute;right: 0;bottom: 16px;;"/>
+        <div id="layersWidgetDivWrapper" class="shadowed">
+            <div id="layersWidgetDiv"></div>
+        </div>
+    <div id="code" class="code manual right shadowed" style="width: 750px;height:600px;">
+        <textarea id="codemirror">
+var webMap = new WebMap({
+    portalItem: { // 构建一个新的 PortalItem()
+          id:'800af9dfd09c420ebd9bed58bf1dd5f2'
+    },
+    basemap: "streets"
+});
+view1 = new MapView({
+    id: 'view1',
+    container: 'view1Div',
+    map: webMap,
+    padding: {
+       top: 110
+    }
+});
+view2 = new SceneView({
+    id: 'view2',
+    container: 'view2Div',
+    map: webMap,
+    zoom:3,
+    center:   {"x":11176703,"y":3741325,"spatialReference":{"wkid":102100}},
+    padding: {
+          top: 110
+    }
+});
+view3 = new SceneView({
+id: 'view3',
+container: 'view3Div',
+map: webMap,
+zoom:6, //优先级最低
+center: {"x":11176703,"y":3741325,"spatialReference":{"wkid":102100}},
+extent: {//优先级其次
+    xmax: -10834217,
+    xmin: -10932882,
+    ymax: 4493918,
+    ymin: 4432667, spatialReference: {wkid: 3857}
+    },
+camera:{//优先级最高
+    heading: 353.44944298202756,
+    tilt: 19.265392107864717,
+    position:{
+        x: 12613839.615503423,
+        y: 1594699.5828803466,
+        z: 5060792.723561829,
+        "spatialReference":{"wkid":102100}
+    }
+},
+    padding: {
+        top: 110
+    }
+});
+         </textarea>
+     </div>
+
+</div>
+<script src="../../commons/codestuff.js"></script>
+</body>
+</html>
