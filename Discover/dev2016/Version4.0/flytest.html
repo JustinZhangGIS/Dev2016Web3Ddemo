@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Work with slides in a WebScene - 4.0</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+        span{
+
+        }
+
+        #start{
+            position:absolute;
+            bottom:0;
+            left:0;
+            z-index: 99;
+        }
+        #stop{
+            position:absolute;
+            bottom:0;
+            left: 100px;
+            z-index: 99;
+        }
+        #Series{
+            position:absolute;
+            bottom:0;
+            left: 200px;
+            z-index: 99;
+        }
+        #slidesDiv {
+            position: absolute;
+            z-index: 50;
+            bottom: 0;
+            right: 0px;
+            background-color: black;
+            opacity: 0.8;
+            color: snow;
+            padding: 10px 0;
+            visibility: visible;
+            height: 120px;
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+        #slidesTable{
+            margin: 0 auto;
+        }
+        #slidesTable td{
+            margin: 0 50px;
+            width: 70px;
+        }
+        #slidesTable td img{
+            margin: 0 auto;
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://tm.arcgisonline.cn:8038/App101/arcgis_js_api/4.0/esri/css/main.css">
+    <script src="http://tm.arcgisonline.cn:8038/App101/arcgis_js_api/4.0/init.js"></script>
+
+    <script>
+        var scene,view,view1,view2;
+        require([
+            "esri/views/SceneView",
+            "esri/views/MapView",
+            "esri/WebScene",
+            "esri/Camera",
+            "esri/geometry/Point",
+            "esri/geometry/support/webMercatorUtils",
+            "esri/geometry/geometryEngine",
+            "dojo/dom-construct",
+            "dojo/dom",
+            "dojo/on",
+            "dojo/dom-style",
+            "dojo/query",
+            "dojo/domReady!"
+        ], function(
+                SceneView,MapView, WebScene,Camera, Point,webMercatorUtils,geometryEngine,domConstruct, dom, on, domStyle, query
+        ) {
+
+            /*********************************************************************
+             * Create a new WebScene referencing a WebScene ID from ArcGIS Online
+             * or an on-premise portal.
+             *********************************************************************/
+            scene = new WebScene({
+                portalItem: { // autocasts as new PortalItem()
+                    id: "4c58d3ec7f51468593e10cb40797d067"
+                }
+            });
+
+            /*********************************************************************
+             * Reference the WebScene in a SceneView instance.
+             *********************************************************************/
+            view = new SceneView({
+                map: scene,
+                container: "viewDiv"
+            });
+            var cameraA=new Camera({
+                heading:1.9288435980972,
+                tilt: 56.48687049812292,
+                position:[116.38787772507467,39.94697959890278]
+            });
+            var cameraB=new Camera({
+                heading:1.9288435980972,
+                tilt: 56.48687049812292,
+                position:[116.38755352322957,39.98799443436474]
+            });
+            view.then(function() {
+
+                /*********************************************************************
+                 * The slides will be placed in the 'slidesDiv' <div> element.
+                 *********************************************************************/
+                dom.byId("slidesDiv").style.visibility = "visible";
+
+                /*********************************************************************
+                 * The slides are a collection inside the presentation property of
+                 * the WebScene.
+                 *********************************************************************/
+                var slides = scene.presentation.slides;
+                // Loop through each slide in the collection
+                slides.forEach(function(slide, i) {
+
+                    /*********************************************************************
+                     * Create a new <span> element for each slide.
+                     *********************************************************************/
+                    var element=dom.byId("slidesTable");
+                    domConstruct.create("td", {
+                        innerHTML: slide.title.text
+                    },  element.rows[0]); // Place the new span inside the "slidesDiv"
+                    domConstruct.create("td", {
+                        id:"tdImage_" + i
+                    }, element.rows[1]);
+                    /*********************************************************************
+                     * Create a new <img> element and place it inside the newly created <span>.
+                     * This will reference the thumbnail from the slide
+                     *********************************************************************/
+                    domConstruct.create("img", {
+                        // Set the src URL of the image to the thumbnail URL of the slide
+                        src: slide.thumbnail.url,
+                        // Assign the image an ID using the slide number
+                        id: "image_" + i,
+                        // Set the title property of the image to the title of the slide
+                        title: slide.title.text
+                    }, element.rows[1].cells[i]); // Place the image inside the new <span> element
+
+                    /*********************************************************************
+                     * Set up a click event handler on the newly created slide. When clicked,
+                     * the code defined below will execute.
+                     *********************************************************************/
+                    on(dom.byId("image_" + i), "click", function() {
+                        query("img").style({
+                            "box-shadow": null,
+                            "border-style": null,
+                            "border-width": null,
+                            "border-color": null
+                        });
+                        // Set a border to the selected slide to indicate it has been selected
+                        domStyle.set(dom.byId("image_" + i), {
+                            "box-shadow": "0px 0px 12px #ffffff",
+                            "border-style": "solid",
+                            "border-width": "thin",
+                            "border-color": "white"
+                        });
+
+                        /******************************************************************
+                         * Applies a slide's settings to the SceneView.
+                         *
+                         * Each slide has a viewpoint and visibleLayers property that define
+                         * the point of view or camera for the slide and the layers that should
+                         * be visible to the user when the slide is selected. This method
+                         * allows the user to animate to the given slide's viewpoint and turn
+                         * on its visible layers and basemap layers in the view.
+                         ******************************************************************/
+                        slide.applyTo(view);
+                    });
+                    // Change the cursor to a pointer style when hovering the mouse
+                    // over a slide's thumbnail image.
+                    on(element.rows[1].cells[i], "mouseover", function() {
+                        element.rows[1].cells[i].style.cursor = "pointer";
+                    });
+                });
+                on(dom.byId("start"),"click",function(){
+                    var flySlides = scene.presentation.slides;
+
+                    flyAToB(flySlides.items[0].viewpoint.camera,flySlides.items[1].viewpoint.camera,20,view);
+                    findDistance(flySlides.items[0].viewpoint.camera.position,flySlides.items[1].viewpoint.camera.position,"meters");
+                    var x1=flySlides.items[0].viewpoint.camera.position.longitude;
+                    var y1=flySlides.items[0].viewpoint.camera.position.latitude;
+                    var x2=flySlides.items[1].viewpoint.camera.position.longitude;
+                    var y2=flySlides.items[1].viewpoint.camera.position.latitude;
+                    var myDistance=getFlatternDistance(y1,x1,y2,x2);
+                    console.log("自定义函数测量距离-椭球",myDistance);
+                    var myDistance2=getGreatCircleDistance(y1,x1,y2,x2);
+                    console.log("自定义函数测量距离-圆球",myDistance2);
+                    var pointA1=webMercatorUtils.geographicToWebMercator(cameraA.position);
+                    var pointB2=webMercatorUtils.geographicToWebMercator(cameraB.position);
+                    findDistance(pointA1,pointB2,"meters");
+                });
+                on(dom.byId("stop"),"click",function(){
+                    clearInterval(timer);
+                });
+                //用于保存相机信息和速度信息的
+                function CamerasMessage(){
+                    this.camera="";
+                    this.speed=20;
+                }
+                //点击触发函数
+                on(dom.byId("Series"),"click",function(){
+                    var flySlides = scene.presentation.slides;
+                    var camerasMessage=[];
+                    flySlides.forEach(function(slide,i){
+                        var label=slide.title.text.split("-")[0];
+                        var speed=parseInt(slide.title.text.split("-")[3]);
+                        if (label=="fly"){
+                            camerasMessage[i]=new CamerasMessage();
+                            camerasMessage[i].camera=slide.viewpoint.camera.clone();
+                            camerasMessage[i].speed=speed;
+                        }
+
+                    });
+                    pptSeriesChange(camerasMessage,20,view);
+                });
+            });
+            /**
+             *幻灯片之间进行运动
+             *
+            */
+            function pptSeriesChange(camerasMessage,speed,view){
+                var i=0;
+                var setSpeed=camerasMessage[i].speed;
+                if(typeof(setSpeed)!="number"){
+                    setSpeed=speed;
+                }
+                var cameraStart=camerasMessage[i].camera;
+                var cameraEnd=camerasMessage[i+1].camera;
+                var finishFct=function (){
+                    if(i>=camerasMessage.length-2){
+                        console.log("调用结束！");
+                        return true;
+                    }else{
+                        i++;
+                        setSpeed=camerasMessage[i].speed;
+                        if(typeof(setSpeed)!="number"){
+                            setSpeed=speed;
+                        }
+                        var cameraStart=camerasMessage[i].camera;
+                        var cameraEnd=camerasMessage[i+1].camera;
+                        console.log(i+"次完成调用！");
+                        var flyStatus=flyAToB(cameraStart,cameraEnd,setSpeed,view,finishFct);
+                    }
+                };
+                var flyStatus=flyAToB(cameraStart,cameraEnd,setSpeed,view,finishFct);
+            }
+            /**
+             *两个camera位置之间进行运动，是一个延迟函数，有一个回调函数用于完成时触发事件
+             *
+             */
+            function flyAToB(cameraA,cameraB,speed,view,callbackFunction){
+                if(view.camera.position !=cameraA.position) {
+                    view.goTo(cameraA);
+                }
+                    var pointA=cameraA.position.clone();
+                    var pointB=cameraB.position.clone();
+                    var cameraM=cameraA.clone();
+                    var length=Math.sqrt(Math.pow((pointB.x-pointA.x),2)+Math.pow((pointB.y-pointA.y),2)+Math.pow((pointB.z-pointA.z),2));
+                    var yxRatio=(pointB.y-pointA.y)/(pointB.x-pointA.x);
+                    var zxRatio=(pointB.z-pointA.z)/(pointB.x-pointA.x);
+                    var lengthM=speed;
+                    timer=setInterval(function(){
+                        var pointMXChange,pointMX,pointMY,pointMZ;
+                        if(lengthM<=length){
+
+                            pointMXChange=lengthM/(Math.sqrt(1+Math.pow(yxRatio,2)+Math.pow(zxRatio,2)));
+                            if(pointA.x>pointB.x){
+                                pointMXChange=pointMXChange*-1;
+                            }
+                            pointMX=pointA.x+pointMXChange;
+                            pointMY=pointA.y+yxRatio*pointMXChange;
+                            pointMZ=pointA.z+zxRatio*pointMXChange;
+                            cameraM.position.x=pointMX;
+                            cameraM.position.y=pointMY;
+                            cameraM.position.z=pointMZ;
+                            view.goTo(cameraM);
+                            lengthM+=speed;
+                        }else{
+                            clearInterval(timer);
+                            view.goTo(cameraB).then(function(){
+                                callbackFunction();
+                            });
+                            return true;
+                        }
+                    },100);
+                return false;
+            }
+
+            function findDistance (point1,point2,unit){
+                var dis=geometryEngine.distance(point1,point2,unit);
+                console.log("两点之间的距离为：",dis);
+            }
+
+            //距离计算参数
+            var EARTH_RADIUS = 6378137.0;    //单位M
+            var PI = Math.PI;
+
+            function getRad(d){
+                return d*PI/180.0;
+            }
+            /**
+             * 椭球版计算距离
+             */
+            function getFlatternDistance(lat1,lng1,lat2,lng2){
+                var f = getRad((lat1 + lat2)/2);
+                var g = getRad((lat1 - lat2)/2);
+                var l = getRad((lng1 - lng2)/2);
+
+                var sg = Math.sin(g);
+                var sl = Math.sin(l);
+                var sf = Math.sin(f);
+
+                var s,c,w,r,d,h1,h2;
+                var a = EARTH_RADIUS;
+                var fl = 1/298.257;
+
+                sg = sg*sg;
+                sl = sl*sl;
+                sf = sf*sf;
+
+                s = sg*(1-sl) + (1-sf)*sl;
+                c = (1-sg)*(1-sl) + sf*sl;
+
+                w = Math.atan(Math.sqrt(s/c));
+                r = Math.sqrt(s*c)/w;
+                d = 2*w*a;
+                h1 = (3*r -1)/2/c;
+                h2 = (3*r +1)/2/s;
+
+                return d*(1 + fl*(h1*sf*(1-sg) - h2*(1-sf)*sg));
+            }
+
+            /**
+             *圆球版计算距离
+             */
+            function getGreatCircleDistance(lat1,lng1,lat2,lng2){
+                var radLat1 = getRad(lat1);
+                var radLat2 = getRad(lat2);
+
+                var a = radLat1 - radLat2;
+                var b = getRad(lng1) - getRad(lng2);
+
+                var s = 2*Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+                s = s*EARTH_RADIUS;
+                s = Math.round(s*10000)/10000.0;
+
+                return s;
+            }
+        });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+<div id="slidesDiv">
+    <table id="slidesTable">
+        <tr></tr>
+        <tr></tr>
+    </table>
+</div>
+<input type="button" id="start" value="start"/>
+<input type="button" id="stop" value="stop"/>
+<input type="button" id="Series" value="Series"/>
+
+
+</body>
+
+</html>

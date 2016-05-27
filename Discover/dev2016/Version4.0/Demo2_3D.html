@@ -5,14 +5,12 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
     <title>二三维联动揭秘</title>
     <link rel="stylesheet" href="http://tm.arcgisonline.cn:8038/App101/arcgis_js_api/4.0/esri/css/main.css">
-    <!--20160509 wfh style.css-->
     <link rel="stylesheet" href="../../commons/css/style4.0Demo.css">
     <link rel="stylesheet" href="../../commons/css/style-rene.css">
     <link rel="stylesheet" href="../../commons/libs/codemirror/codemirror.css">
     <link rel="stylesheet" href="../../commons/libs/codemirror/monokai.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/4.0demo.css">
-    <!--20160509 wfh 这三行行不能删掉  codemirror.js,javascript.js，jsx.js-->
     <script src="../../commons/libs/codemirror/codemirror.js"></script>
     <script src="../../commons/libs/codemirror/mode/javascript/javascript.js"></script>
     <script src="../../commons/libs/codemirror/mode/jsx/jsx.js"></script>
@@ -79,7 +77,7 @@
 //                ground: 'world-elevation'
 //            });
             esriConfig.portalUrl = "http://zhangjian.esricloud.com/arcgis";
-            var map = new WebMap({
+            var webMap = new WebMap({
                 portalItem: { // autocasts as new PortalItem()
 //                    id: "5c80c56bef044ebca5d6dbc85f2f4bbb"//美国数据， 网络不稳定。
 //                    id: "ce42b8f740a14fcea1ee6f63a26ea6df"
@@ -98,7 +96,7 @@
             view1 = new MapView({
                 id: 'view1',
                 container: 'view1Div',
-                map: map,
+                map: webMap,
                 padding: {
                     top: 110
                 }
@@ -129,7 +127,7 @@
             view2 = new MapView({
                 id: 'view2',
                 container: 'view2Div',
-                map: map,
+                map: webMap,
                 constraints: {
                     // Disable zoom snapping to get the best synchonization
 //                    snapToZoom: false//这个设置为false底图就会有格网。 但对SceneView没影响 - 李显发现的。
@@ -257,7 +255,7 @@
                 view2 = new SceneView({
                     id: 'view2',
                     container: 'view2Div',
-                    map: map,
+                    map: webMap,
                     zoom:3,
                     //确定地图中心点
                     center:   {"x":11176703,"y":3741325,"spatialReference":{"wkid":102100}},
@@ -295,7 +293,7 @@
                 view1 = new MapView({
                     id: 'view1',
                     container: 'view1Div',
-                    map: map,
+                    map: webMap,
                     zoom:3,
                     //确定地图中心点
                     center:   {"x":11176703,"y":3741325,"spatialReference":{"wkid":102100}},
@@ -361,8 +359,8 @@
         <button class="showcode ui-button">代码</button>
         <button class="doChange3D ui-button" id="doChange3DId">3D</button>
     </div>
-    <div id="view1Div" style="float: left; width: 50%; height: 100%;"></div>
-    <div id="view2Div" style="float: left; width: 50%; height: 100%;">
+    <div id="view1Div" style="position: absolute;left: 0;top: 0; width: 50%; height: 100%;"></div>
+    <div id="view2Div" style="position: absolute;right: 0;top: 0; width: 50%; height: 100%;"></div>
         <img src="css/footer.png" style="position: absolute;right: 0;bottom: 16px;;"/>
         <div id="layersWidgetDivWrapper" class="shadowed">
             <div id="layersWidgetDiv"></div>
@@ -414,7 +412,6 @@ scheduleHandle = Scheduler.schedule(function() {
 });
             </textarea>
         </div>
-    </div>
 
 </div>
 <script src="../../commons/codestuff.js"></script>

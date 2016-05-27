@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
-    <title>三维符号化</title>
+    <title>监听</title>
     <link rel="stylesheet" href="http://tm.arcgisonline.cn:8038/App101/arcgis_js_api/4.0/esri/css/main.css">
     <link rel="stylesheet" href="../../commons/css/style4.0Demo.css">
     <link rel="stylesheet" href="../../commons/css/style-rene.css">
@@ -107,9 +107,9 @@
                 container: "viewDiv",
                 map: map,
                 camera: {
-                    position: [-81.76, 16.77, 1932626],
-                    tilt: 40,
-                    zoom: 5.8
+                    position: [116, 40, 1932626],
+                    tilt: 10,
+                    zoom: 6
                 },
                 padding: {
                     top: 110
@@ -117,86 +117,21 @@
 
             });
             view.then(function(){
-                var homeBtn1 = new Home({
+                var homeBtn = new Home({
                     viewModel: {
-                        view: view1
+                        view: view
                     }
                 });
-                homeBtn1.startup();
-                view.ui.add(homeBtn1, { position: "top-left", index: 2 });
-                // INITIALIZE SEARCH //
-                var search1 = new Search({
-                    viewModel: {
-                        view: view1,
-                        autoNavigate: true,
-                        autoSelect: true,
-                        highlightEnabled: true,
-                        labelEnabled: false,
-                        popupEnabled: false,
-                        showPopupOnSelect: false
-                    }
-                });
-                search1.startup();
-                view.ui.add(search1, { position: "top-right", index: 0 });//ok
-            });
-            // Create iconSymbol and add to renderer
-            iconSymbol = new PointSymbol3D({
-                symbolLayers: [new IconSymbol3DLayer({
-                    size: 24,
-                    resource: {
-                        primitive: "square"
-                    },
-                    material: {
-                        color: "orange"
-                    }
-                })]
-            });
-            iconSymbolRenderer = new SimpleRenderer({
-                symbol: iconSymbol
-            });
+                homeBtn.startup();
+                view.ui.add(homeBtn, { position: "top-left", index: 2 });
 
-            //使用原生符号化渲染
-            objectSymbol = new PointSymbol3D({
-                symbolLayers: [new ObjectSymbol3DLayer({
-                    width: 70000,
-                    height: 100000,
-                    resource: {
-                        primitive: "cone"
-                    },
-                    material: {
-                        color: "#FFD700"
-                    }
-                })]
             });
-            objectSymbolRenderer = new SimpleRenderer({
-                symbol: objectSymbol
-            });
-            //创建自定义3d符号化渲染
-            defineSymbol=new PointSymbol3D({
-                symbolLayers: [new ObjectSymbol3DLayer({
-                    width: 70000,
-                    resource: {
-                        href: 'QiChe.json'
-                    }
-                })]
-            });
-            defineSymbolRenderer = new SimpleRenderer({
-                symbol: defineSymbol
-            });
-            //添加要素图层并使用符号化渲染
-            featureLayer = new FeatureLayer({
-                url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/CITIES_EastUSA_range/FeatureServer/0",
-                renderer: objectSymbolRenderer,
-            });
-            map.add(featureLayer);
+            view.then(function(){
+                view.watch("camera",function(newvalue,oldvalue,property, object){
+                    console.log("New Camera Value:",newvalue)
+                })
+            })
 
-            // Register the events listener to toggle between objectSymbol and iconSymbol
-            on(dom.byId("asObject"), "click", function() {
-                featureLayer.renderer = objectSymbolRenderer;
-            });
-            on(dom.byId("asDefine"), "click", function() {
-                featureLayer.renderer = defineSymbolRenderer;
-            });
 
         });
     </script>
@@ -208,22 +143,10 @@
         <div class="content">
             <img src="css/top.png" style="float: left;"/>
             <div class="main" style="position: absolute;left: 120px;top: -10px;">
-                <span class="title">3D符号化揭秘</span>
+                <span class="title">监听.watch()</span>
             </div>
         </div>
         <button class="showcode ui-button">代码</button>
-    </div>
-    <div id="paneDiv"> 点图层3D符号化
-        <div>
-            <input type="radio" name="symbolType" value="icon" checked="checked" id="asObject"
-                    />
-            <label for="asObject">3D 模型 </label>
-        </div>
-
-        <div>
-            <input type="radio" name="symbolType" value="object" id="asDefine" />
-            <label for="asDefine">3D 自定义模型</label>
-        </div>
     </div>
     <div id="viewDiv" style="position:absolute;left: 0;top: 0; width: 100%; height: 100%;">
         <img src="css/footer.png" style="position: absolute;right: 0;bottom: 16px;;"/>
@@ -248,7 +171,7 @@ symbolLayers: [new ObjectSymbol3DLayer({
 objectSymbolRenderer = new SimpleRenderer({
     symbol: objectSymbol
 });
-//1 利用PointSymbol3D引用包含自定义3d模型的json文件
+//创建自定义3d符号化渲染
 defineSymbol=new PointSymbol3D({
     symbolLayers: [new ObjectSymbol3DLayer({
         width: 70000,
@@ -257,14 +180,13 @@ defineSymbol=new PointSymbol3D({
         }
     })]
 });
-//2 SimpleRenderer将自定义符号定义为一种渲染方式
 defineSymbolRenderer = new SimpleRenderer({
     symbol: defineSymbol
 });
-//3 添加要素图层并使用自定义符号化渲染
+//添加要素图层并使用符号化渲染
 featureLayer = new FeatureLayer({
     url: "...",
-    renderer: defineSymbolRenderer,
+    renderer: objectSymbolRenderer,
 });
 map.add(featureLayer);
             </textarea>
