@@ -3,20 +3,22 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
-    <title>Camera</title>
-    <link rel="stylesheet" href="http://tm.arcgisonline.cn:8038/App101/arcgis_js_api/4.0/esri/css/main.css">
-    <link rel="stylesheet" href="../../commons/css/style4.0Demo.css">
-    <link rel="stylesheet" href="../../commons/css/style-rene.css">
-    <link rel="stylesheet" href="../../commons/libs/codemirror/codemirror.css">
-    <link rel="stylesheet" href="../../commons/libs/codemirror/monokai.css">
+    <title>Globle和Local</title>
+    <!--<link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">-->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
+    <link rel="stylesheet" href="../commons/css/style4.0Demo.css">
+    <link rel="stylesheet" href="../commons/css/style-rene.css">
+    <link rel="stylesheet" href="../commons/libs/codemirror/codemirror.css">
+    <link rel="stylesheet" href="../commons/libs/codemirror/monokai.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/4.0demo.css">
-    <script src="../../commons/libs/codemirror/codemirror.js"></script>
-    <script src="../../commons/libs/codemirror/mode/javascript/javascript.js"></script>
-    <script src="../../commons/libs/codemirror/mode/jsx/jsx.js"></script>
+    <script src="../commons/libs/codemirror/codemirror.js"></script>
+    <script src="../commons/libs/codemirror/mode/javascript/javascript.js"></script>
+    <script src="../commons/libs/codemirror/mode/jsx/jsx.js"></script>
 
-    <script src="../../commons/js/dojoConfig4.0.js"></script>
-    <script src="http://tm.arcgisonline.cn:8038/App101/arcgis_js_api/4.0/init.js"></script>
+    <script src="../commons/js/dojoConfig4.0.js"></script>
+    <script src="https://js.arcgis.com/4.0/"></script>
+    <!--<script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>-->
     <script src="../../frame/js/plugin/jquery.min.js"></script>
     <style>
         #paneDiv {
@@ -93,56 +95,79 @@
             var iconSymbol, iconSymbolRenderer, objectSymbol,
                     objectSymbolRenderer, featureLayer;
             var map = new Map({
-                basemap: {//自定义底图。
-                    baseLayers:[
-                        new TileLayer({
-                            url:"http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-                            title:"午夜蓝"
-                        })
-                    ]
-                },
+                basemap: 'topo',
                 ground: 'world-elevation'
             });
-            var view = new SceneView({
-                container: "viewDiv",
+            // The clipping extent for the scene
+            var kansasExtent = { // autocasts as new Extent()
+                xmax: -10834217,
+                xmin: -10932882,
+                ymax: 4493918,
+                ymin: 4432667,
+                spatialReference: { // autocasts as new SpatialReference()
+                    wkid: 3857
+                }
+            };
+            var localView = new SceneView({
+                container: "localViewDiv",
                 map: map,
-                camera: {
-                    fov:55,
-                    heading:0,
-                    position: [116, 40],
-                    tilt: 10
+                // Indicates to create a local scene
+                viewingMode: "local",
+                clippingArea: kansasExtent,
+                extent: kansasExtent,
+                constraints: {
+                    collision: {
+                        enabled: false
+                    },
+                    tilt: {
+                        max: 179.99
+                    }
                 },
-                zoom: 2,
+                // Turns off atmosphere and stars settings
+                environment: {
+                    atmosphere: null,
+                    starsEnabled: false
+                },
                 padding: {
                     top: 110
                 }
 
             });
-            view.then(function(){
-                var homeBtn = new Home({
-                    viewModel: {
-                        view: view
+            localView.then(function(){
+                var homeBtn1 = new Home({
+                    viewModel1: {
+                        view: localView
                     }
                 });
-                homeBtn.startup();
-                view.ui.add(homeBtn, { position: "top-left", index: 2 });
-                // INITIALIZE SEARCH //
-                var search = new Search({
-                    viewModel: {
-                        view: view,
-                        autoNavigate: true,
-                        autoSelect: true,
-                        highlightEnabled: true,
-                        labelEnabled: false,
-                        popupEnabled: false,
-                        showPopupOnSelect: false
+                homeBtn1.startup();
+                localView.ui.add(homeBtn1, { position: "top-left", index: 2 });
+            });
+            var globeView = new SceneView({
+                container: "globeViewDiv",
+                map: map,
+                // Indicates to create a local scene
+                viewingMode: "globe",
+                center:[100, 40],//优先级最低
+                zoom: 5,//优先级最低
+                extent: kansasExtent,//优先级其次
+                camera: {//优先级最高
+                    position: [116, 40, 1932626],
+                    tilt: 20
+                },
+
+                padding: {
+                    top: 110
+                }
+
+            });
+            globeView.then(function(){
+                var homeBtn2 = new Home({
+                    viewModel2: {
+                        view: globeView
                     }
                 });
-                search.startup();
-                view.ui.add(search, { position: "top-right", index: 0 });//ok
-                view.watch("camera",function(newvalue){
-                    console.log("camera new value:",newvalue);
-                })
+                homeBtn2.startup();
+                globeView.ui.add(homeBtn2, { position: "top-left", index: 2 });
             });
 
 
@@ -156,55 +181,36 @@
         <div class="content">
             <img src="css/top.png" style="float: left;"/>
             <div class="main" style="position: absolute;left: 120px;top: -10px;">
-                <span class="title">二三维联动揭秘</span>
+                <span class="title">Global和Local</span>
             </div>
         </div>
         <button class="showcode ui-button">代码</button>
     </div>
-    <div id="viewDiv" style="position:absolute;left: 0;top: 0; width: 100%; height: 100%;">
+    <div id="globeViewDiv" style="position:absolute;left: 0;top: 0; width: 50%; height: 100%;"></div>
+    <div id="localViewDiv" style="position:absolute;right: 0;top: 0; width: 50%; height: 100%;"></div>
         <img src="css/footer.png" style="position: absolute;right: 0;bottom: 16px;;"/>
         <div id="layersWidgetDivWrapper" class="shadowed">
             <div id="layersWidgetDiv"></div>
         </div>
         <div id="code" class="code manual right shadowed" style="width: 500px;height:600px;">
             <textarea id="codemirror">
-//使用原生符号化渲染
-objectSymbol = new PointSymbol3D({
-symbolLayers: [new ObjectSymbol3DLayer({
-    width: 70000,
-    height: 100000,
-    resource: {
-        primitive: "cone"
-    },
-        material: {
-            color: "#FFD700"
-        }
-    })]
-});
-objectSymbolRenderer = new SimpleRenderer({
-    symbol: objectSymbol
-});
-//创建自定义3d符号化渲染
-defineSymbol=new PointSymbol3D({
-    symbolLayers: [new ObjectSymbol3DLayer({
-        width: 70000,
-        resource: {
-            href: 'QiChe.json'
-        }
-    })]
-});
-defineSymbolRenderer = new SimpleRenderer({
-    symbol: defineSymbol
-});
-//添加要素图层并使用符号化渲染
-featureLayer = new FeatureLayer({
-    url: "...",
-    renderer: objectSymbolRenderer,
-});
-map.add(featureLayer);
+var localView = new SceneView({
+container: "localViewDiv",
+map: map,
+viewingMode: "local",
+clippingArea: kansasExtent,
+extent: kansasExtent,
+constraints: {
+collision: {
+      enabled: false
+      },
+      tilt: {
+          max: 179.99
+      }
+},
             </textarea>
         </div>
-    </div>
+
 
 </div>
 <script src="../../commons/codestuff.js"></script>

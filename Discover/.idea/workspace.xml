@@ -2,17 +2,52 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a3fad73-2aa0-4a4e-a120-542053bc31bb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoMapAndView.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/Demo2_3D.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/Demo2_3D.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/Demo3DSymbol.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/Demo3DSymbol.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/DemoBlank.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoBlank.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/DemoGlobleLocal.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoGlobleLocal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/DemoWatch.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoWatch.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/DemoWebScene.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/DemoWebScene.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/environment.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/environment.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/extendRenderer.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/extendRenderer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/flytest.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/flytest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev2016/Version4.0/portal_slides.html" afterPath="$PROJECT_DIR$/dev2016/Version4.0/portal_slides.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/css/footer.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/css/footer2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/css/top.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/css/top2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/css/top3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/3dGraphic.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/css/4.0demo.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/Demo2_3D.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/Demo3DSymbol.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/DemoBlank.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/DemoCamera.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/DemoGlobleLocal.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/DemoMapAndView.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/DemoVectorTile.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/DemoWatch.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/DemoWebScene.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/QiChe.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/environment.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/extendRenderer.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/flytest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/css/main.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/portal_slides.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dev2016/css/theme.css" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\3dGraphic.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\Demo2_3D.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\Demo3DSymbol.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\DemoBlank.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\DemoCamera.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\DemoGlobleLocal.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\DemoMapAndView.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\DemoVectorTile.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\DemoWatch.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\DemoWebScene.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\QiChe.json" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\css\4.0demo.css" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\css\footer.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\css\footer2.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\css\main.css" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\css\theme.css" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\css\top.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\css\top2.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\css\top3.png" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\environment.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\extendRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\flytest.html" afterPath="" />
+      <change type="DELETED" beforePath="D:\1-DevVectorTile\Discover\dev2016\Version4.0\portal_slides.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Discover.iws" />
@@ -34,56 +69,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="environment.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/environment.html">
+      <file leaf-file-name="Demo2_3D.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dev2016/Demo2_3D.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="20.76923">
-              <caret line="27" column="97" selection-start-line="27" selection-start-column="97" selection-end-line="27" selection-end-column="97" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DemoMapAndView.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoMapAndView.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.6153846">
-              <caret line="6" column="33" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="flytest.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/flytest.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.769231">
-              <caret line="65" column="117" selection-start-line="65" selection-start-column="117" selection-end-line="65" selection-end-column="117" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="portal_slides.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/portal_slides.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.3846154">
-              <caret line="76" column="117" selection-start-line="76" selection-start-column="117" selection-end-line="76" selection-end-column="117" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="3dGraphic.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/3dGraphic.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.4578314">
-              <caret line="4" column="43" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -108,16 +98,16 @@
         <option value="$PROJECT_DIR$/dev2016/Version4.0/DemoCamera.html" />
         <option value="$PROJECT_DIR$/dev2016/Version4.0/3dGraphic.html" />
         <option value="$PROJECT_DIR$/dev2016/Version4.0/Demo2_3D.html" />
-        <option value="$PROJECT_DIR$/dev2016/Version4.0/DemoWatch.html" />
         <option value="$PROJECT_DIR$/dev2016/Version4.0/Demo3DSymbol.html" />
         <option value="$PROJECT_DIR$/dev2016/Version4.0/DemoBlank.html" />
         <option value="$PROJECT_DIR$/dev2016/Version4.0/DemoGlobleLocal.html" />
         <option value="$PROJECT_DIR$/dev2016/Version4.0/DemoWebScene.html" />
         <option value="$PROJECT_DIR$/dev2016/Version4.0/environment.html" />
         <option value="$PROJECT_DIR$/dev2016/Version4.0/extendRenderer.html" />
-        <option value="$PROJECT_DIR$/dev2016/Version4.0/DemoMapAndView.html" />
         <option value="$PROJECT_DIR$/dev2016/Version4.0/portal_slides.html" />
         <option value="$PROJECT_DIR$/dev2016/Version4.0/flytest.html" />
+        <option value="$PROJECT_DIR$/dev2016/Version4.0/DemoMapAndView.html" />
+        <option value="$PROJECT_DIR$/dev2016/Version4.0/DemoWatch.html" />
       </list>
     </option>
   </component>
@@ -129,10 +119,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-11" />
-    <option name="y" value="-8" />
-    <option name="width" value="1932" />
-    <option name="height" value="1056" />
+    <option name="x" value="-2" />
+    <option name="y" value="1" />
+    <option name="width" value="1920" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -157,6 +147,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -176,27 +167,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Discover" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Discover" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dev2016" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Version4.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -282,16 +254,21 @@
       <option name="project" value="LOCAL" />
       <updated>1464323021512</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="updata2">
+      <created>1464323035742</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1464323035742</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-8" width="1932" height="1056" extended-state="0" />
+    <frame x="-2" y="1" width="1920" height="1040" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973601" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14824654" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -299,6 +276,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -331,303 +309,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/Demo2_3D.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="97" selection-start-line="6" selection-start-column="97" selection-end-line="6" selection-end-column="97" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoGlobleLocal.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="98" selection-start-line="6" selection-start-column="98" selection-end-line="6" selection-end-column="98" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoWatch.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="95" column="35" selection-start-line="95" selection-start-column="35" selection-end-line="95" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoWebScene.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="82" selection-start-line="18" selection-start-column="82" selection-end-line="18" selection-end-column="82" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoMapAndView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="98" selection-start-line="6" selection-start-column="98" selection-end-line="6" selection-end-column="98" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/Demo3DSymbol.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="98" selection-start-line="6" selection-start-column="98" selection-end-line="6" selection-end-column="98" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoBlank.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="97" selection-start-line="6" selection-start-column="97" selection-end-line="6" selection-end-column="97" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoCamera.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="50" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/environment.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="97" selection-start-line="27" selection-start-column="97" selection-end-line="27" selection-end-column="97" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/extendRenderer.html">
+    <entry file="file://$PROJECT_DIR$/dev2016/Demo2_3D.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/Demo2_3D.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="268" column="19" selection-start-line="254" selection-start-column="16" selection-end-line="268" selection-end-column="19" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoGlobleLocal.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="100" column="32" selection-start-line="100" selection-start-column="16" selection-end-line="100" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoWatch.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="145" column="46" selection-start-line="145" selection-start-column="46" selection-end-line="145" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoWebScene.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoMapAndView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/portal_slides.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="116" column="55" selection-start-line="116" selection-start-column="25" selection-end-line="116" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/Demo3DSymbol.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/environment.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="91" selection-start-line="29" selection-start-column="91" selection-end-line="29" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/flytest.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="267" column="38" selection-start-line="267" selection-start-column="20" selection-end-line="267" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/3dGraphic.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="91" selection-start-line="7" selection-start-column="4" selection-end-line="10" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoVectorTile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.5384616">
-          <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/Demo2_3D.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="97" selection-start-line="6" selection-start-column="97" selection-end-line="6" selection-end-column="97" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoCamera.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="50" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoWatch.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="95" column="35" selection-start-line="95" selection-start-column="35" selection-end-line="95" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/Demo3DSymbol.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="98" selection-start-line="6" selection-start-column="98" selection-end-line="6" selection-end-column="98" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoBlank.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="97" selection-start-line="6" selection-start-column="97" selection-end-line="6" selection-end-column="97" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoGlobleLocal.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="98" selection-start-line="6" selection-start-column="98" selection-end-line="6" selection-end-column="98" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoWebScene.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="82" selection-start-line="18" selection-start-column="82" selection-end-line="18" selection-end-column="82" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/extendRenderer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="97" selection-start-line="8" selection-start-column="97" selection-end-line="8" selection-end-column="97" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/environment.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="20.76923">
-          <caret line="27" column="97" selection-start-line="27" selection-start-column="97" selection-end-line="27" selection-end-column="97" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/DemoMapAndView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.6153846">
-          <caret line="6" column="33" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/flytest.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.769231">
-          <caret line="65" column="117" selection-start-line="65" selection-start-column="117" selection-end-line="65" selection-end-column="117" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/portal_slides.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.3846154">
-          <caret line="76" column="117" selection-start-line="76" selection-start-column="117" selection-end-line="76" selection-end-column="117" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dev2016/Version4.0/3dGraphic.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.4578314">
-          <caret line="4" column="43" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="43" />
           <folding />
         </state>
       </provider>

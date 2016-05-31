@@ -4,20 +4,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
     <title>二三维联动揭秘</title>
-    <link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">
-    <link rel="stylesheet" href="../../commons/css/style4.0Demo.css">
-    <link rel="stylesheet" href="../../commons/css/style-rene.css">
-    <link rel="stylesheet" href="../../commons/libs/codemirror/codemirror.css">
-    <link rel="stylesheet" href="../../commons/libs/codemirror/monokai.css">
+    <!--<link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">-->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
+    <link rel="stylesheet" href="../commons/css/style4.0Demo.css">
+    <link rel="stylesheet" href="../commons/css/style-rene.css">
+    <link rel="stylesheet" href="../commons/libs/codemirror/codemirror.css">
+    <link rel="stylesheet" href="../commons/libs/codemirror/monokai.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/4.0demo.css">
-    <script src="../../commons/libs/codemirror/codemirror.js"></script>
-    <script src="../../commons/libs/codemirror/mode/javascript/javascript.js"></script>
-    <script src="../../commons/libs/codemirror/mode/jsx/jsx.js"></script>
+    <script src="../commons/libs/codemirror/codemirror.js"></script>
+    <script src="../commons/libs/codemirror/mode/javascript/javascript.js"></script>
+    <script src="../commons/libs/codemirror/mode/jsx/jsx.js"></script>
 
-    <script src="../../commons/js/dojoConfig4.0.js"></script>
-    <script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>
-    <script src="../../frame/js/plugin/jquery.min.js"></script>
+    <script src="../commons/js/dojoConfig4.0.js"></script>
+    <script src="https://js.arcgis.com/4.0/"></script>
+    <!--<script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>-->
+    <script src="../frame/js/plugin/jquery.min.js"></script>
     <style>
         .light .esri-widget,
         .light .esri-widget-button
@@ -76,12 +78,10 @@
 //                basemap: 'satellite',
 //                ground: 'world-elevation'
 //            });
-            esriConfig.portalUrl = "http://zhangjian.esricloud.com/arcgis";
+            esriConfig.portalUrl = "http://www.arcgis.com/";
             var webMap = new WebMap({
                 portalItem: { // autocasts as new PortalItem()
-//                    id: "5c80c56bef044ebca5d6dbc85f2f4bbb"//美国数据， 网络不稳定。
-//                    id: "ce42b8f740a14fcea1ee6f63a26ea6df"
-                    id:'800af9dfd09c420ebd9bed58bf1dd5f2'
+                    id:'d7134c651d384ba7981b74c360c8b712'
                 },
                 basemap: {//自定义底图。
                     baseLayers:[

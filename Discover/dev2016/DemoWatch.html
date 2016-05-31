@@ -3,20 +3,22 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
-    <title>空白</title>
-    <link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">
-    <link rel="stylesheet" href="../../commons/css/style4.0Demo.css">
-    <link rel="stylesheet" href="../../commons/css/style-rene.css">
-    <link rel="stylesheet" href="../../commons/libs/codemirror/codemirror.css">
-    <link rel="stylesheet" href="../../commons/libs/codemirror/monokai.css">
+    <title>监听</title>
+    <!--<link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">-->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
+    <link rel="stylesheet" href="../commons/css/style4.0Demo.css">
+    <link rel="stylesheet" href="../commons/css/style-rene.css">
+    <link rel="stylesheet" href="../commons/libs/codemirror/codemirror.css">
+    <link rel="stylesheet" href="../commons/libs/codemirror/monokai.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/4.0demo.css">
-    <script src="../../commons/libs/codemirror/codemirror.js"></script>
-    <script src="../../commons/libs/codemirror/mode/javascript/javascript.js"></script>
-    <script src="../../commons/libs/codemirror/mode/jsx/jsx.js"></script>
+    <script src="../commons/libs/codemirror/codemirror.js"></script>
+    <script src="../commons/libs/codemirror/mode/javascript/javascript.js"></script>
+    <script src="../commons/libs/codemirror/mode/jsx/jsx.js"></script>
 
-    <script src="../../commons/js/dojoConfig4.0.js"></script>
-    <script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>
+    <script src="../commons/js/dojoConfig4.0.js"></script>
+    <script src="https://js.arcgis.com/4.0/"></script>
+    <!--<script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>-->
     <script src="../../frame/js/plugin/jquery.min.js"></script>
     <style>
         #paneDiv {
@@ -93,14 +95,7 @@
             var iconSymbol, iconSymbolRenderer, objectSymbol,
                     objectSymbolRenderer, featureLayer;
             var map = new Map({
-                basemap: {//自定义底图。
-                    baseLayers:[
-                        new TileLayer({
-                            url:"http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-                            title:"午夜蓝"
-                        })
-                    ]
-                },
+                basemap: "streets",
                 ground: 'world-elevation'
             });
             var view = new SceneView({
@@ -117,30 +112,20 @@
 
             });
             view.then(function(){
-                var homeBtn1 = new Home({
+                var homeBtn = new Home({
                     viewModel: {
-                        view: view1
+                        view: view
                     }
                 });
                 homeBtn.startup();
                 view.ui.add(homeBtn, { position: "top-left", index: 2 });
-                // INITIALIZE SEARCH //
-                var search = new Search({
-                    viewModel: {
-                        view: view,
-                        autoNavigate: true,
-                        autoSelect: true,
-                        highlightEnabled: true,
-                        labelEnabled: false,
-                        popupEnabled: false,
-                        showPopupOnSelect: false
-                    }
-                });
-                search.startup();
-                view.ui.add(search1, { position: "top-right", index: 0 });//ok
+
             });
-
-
+            view.then(function(){
+                view.watch("camera",function(newvalue,oldvalue,property, object){
+                    console.log("New Camera Value:",newvalue)
+                })
+            })
         });
     </script>
 </head>
@@ -151,7 +136,7 @@
         <div class="content">
             <img src="css/top.png" style="float: left;"/>
             <div class="main" style="position: absolute;left: 120px;top: -10px;">
-                <span class="title">二三维联动揭秘</span>
+                <span class="title">监听.watch()</span>
             </div>
         </div>
         <button class="showcode ui-button">代码</button>
