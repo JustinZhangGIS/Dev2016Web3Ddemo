@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>4.0 GroupLayer</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
+    <link href="../../commons/css/style.css" rel="stylesheet" type="text/css">
+    <link href="../../commons/widgets/LayerWidget/css/LayerWidget.css" rel="stylesheet" type="text/css">
+    <script src="../../commons/js/dojoConfig4.0.js"></script>
+    <!--20160509 wfh style.css-->
+    <link rel="stylesheet" href="../../commons/css/style.css">
+    <link rel="stylesheet" href="../../commons/css/style-rene.css">
+    <link rel="stylesheet" href="../../commons/libs/codemirror/codemirror.css">
+    <link rel="stylesheet" href="../../commons/libs/codemirror/monokai.css">
+    <link rel="stylesheet" href="css/main.css">
+    <!--20160509 wfh 这三行行不能删掉  codemirror.js,javascript.js，jsx.js-->
+    <script src="../../commons/libs/codemirror/codemirror.js"></script>
+    <script src="../../commons/libs/codemirror/mode/javascript/javascript.js"></script>
+    <script src="../../commons/libs/codemirror/mode/jsx/jsx.js"></script>
+    <script src="https://js.arcgis.com/4.0/"></script>
+    <!--<script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>-->
+    <style>
+        html, body {
+            margin:0;
+            padding:0;
+            width: 100%;
+            height: 100%;
+        }
+        #viewDiv {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <style>
+        #layersWidgetDivWrapper {
+            background: white;
+            z-index: 100;
+            padding: 20px;
+        }
+        #layersWidgetDiv {
+            width: 275px;
+        }
+    </style>
+    <script>
+        var map, view, group;
+        require([
+            "esri/Map",
+            "esri/Camera",
+
+            "esri/views/SceneView",
+            "esri/views/MapView",
+
+            "esri/layers/GroupLayer",
+            "esri/layers/FeatureLayer",
+            "esri/layers/MapImageLayer",
+            "esri/layers/TileLayer",
+            "widgets/LayerWidget/LayerWidget",
+
+            "commons/init",
+            "dojo/domReady!"
+        ], function(Map, Camera,
+                    SceneView,MapView,
+                    GroupLayer, FeatureLayer, MapImageLayer,TileLayer,
+                    LayerWidget) {
+
+            //一、定义一副地图，包括了要分组的图层，可以有多个分组
+            map = new Map({
+                layers: [
+                    new TileLayer({
+                        title: '底图',
+                        url: 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer'
+                        //listMode: 'hide',
+                    }),
+                    new GroupLayer({
+                        title: '业务图层',
+                        visibilityMode: 'independent',//independent,exclusive,inherited
+                        //listMode: 'hide-children',
+                        layers: [
+                            new TileLayer({
+                                url: '//server.arcgisonline.com/ArcGIS/rest/services/Demographics/USA_Median_Household_Income/MapServer',
+                                title: 'Median Household Income',
+                                visible: false
+                            }),
+                            new TileLayer({
+                                "url": '//services.arcgisonline.com/ArcGIS/rest/services/Demographics/USA_Tapestry/MapServer',
+                                "title": "Tapestry Segmentation",
+                                visible: true
+                            }),
+                            new TileLayer({
+                                url: '//server.arcgisonline.com/ArcGIS/rest/services/Demographics/USA_Population_Density/MapServer',
+                                title: 'Population Density',
+                                visible: false
+                            })
+                        ]
+                    })
+                ]
+            });
+            //二、生成一副视图
+            view = new SceneView({
+                map: map,
+                container: 'viewDiv',
+                camera: Camera.fromJSON({
+                    position: {
+                        x: -11311115,
+                        y: 2353487,
+                        spatialReference: {
+                            wkid: 102100
+                        },
+                        z: 5856400
+                    },
+                    heading: 0,
+                    tilt: 16
+                }),
+                padding: {
+                    top: 80
+                }
+            });
+            //三、使用LayerWidget显示视图中的地图图层
+            var layerWidget = new LayerWidget({
+                view: view
+            }, 'layersWidgetDiv');
+
+            view.ui.add('layersWidgetDivWrapper', 'top-right');
+        });
+    </script>
+</head>
+
+<body class="light">
+<div class="application">
+    <div class="applicationBar orange">
+        <div class="content">
+            <div class="cartouche">
+                <span class="label">4.0</span>
+            </div>
+            <div class="main">
+                <span class="title">4.0 GroupLayer</span>
+            </div>
+        </div>
+        <button class="showcode ui-button">code</button>
+    </div>
+    <div id="viewDiv">
+        <div id="layersWidgetDivWrapper" class="shadowed">
+            <div id="layersWidgetDiv"></div>
+        </div>
+        <div id="code" class="code manual right shadowed" style="width: 750px;height:600px;">
+            <textarea id="codemirror">
+//一、定义一副地图，包括了要分组的图层，可以有多个分组
+            map = new Map({
+                layers: [
+                    new TileLayer({
+                        title: '底图',
+                        url: 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer'
+                        //listMode: 'hide',
+                    }),
+                    new GroupLayer({
+                        title: '业务图层',
+                        visibilityMode: 'exclusive',
+                        //listMode: 'hide-children',
+                        layers: [
+                            new TileLayer({
+                                title: '午夜蓝',
+                                url: 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer',
+                                visible: false
+                            }),
+                            new TileLayer({
+                                "url": 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetWarm/MapServer',
+                                "title": "暖色版",
+                                visible: true
+                            }),
+                        ]
+                    })
+                ]
+            });
+            //二、生成一副视图
+            view = new SceneView({
+                map: map,
+                container: 'viewDiv',
+                camera: Camera.fromJSON({
+                    position: {
+                        x: -11311115,
+                        y: 2353487,
+                        spatialReference: {
+                            wkid: 102100
+                        },
+                        z: 5856400
+                    },
+                    heading: 0,
+                    tilt: 16
+                }),
+                padding: {
+                    top: 80
+                }
+            });
+            //三、使用LayerWidget显示视图中的地图图层
+            var layerWidget = new LayerWidget({
+                view: view
+            }, 'layersWidgetDiv');
+
+            view.ui.add('layersWidgetDivWrapper', 'top-right');
+            </textarea>
+        </div>
+    </div>
+</div>
+<script src="../../commons/codestuff.js"></script>
+</body>
+</html>

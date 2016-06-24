@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
-    <title>空白</title>
+    <title>立柱动画，未完成</title>
     <!--<link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">-->
     <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
     <link rel="stylesheet" href="../commons/css/style4.0Demo.css">
@@ -69,6 +69,10 @@
             "esri/core/watchUtils",
             "esri/core/Scheduler",
 
+            "esri/geometry/Point",
+            "esri/geometry/Polyline",
+            "esri/geometry/Polygon",
+
             "esri/widgets/Home",
             "esri/widgets/Search",
 
@@ -85,8 +89,8 @@
                 Map,
                 WebMap,Graphic,esriConfig,
                 MapView, SceneView,TileLayer,
-                watchUtils,
-                Scheduler,
+                watchUtils, Scheduler,
+                Point,Polyline,Polygon,
                 Home,Search,
                 FeatureLayer,SimpleRenderer,PointSymbol3D,
                 IconSymbol3DLayer,ObjectSymbol3DLayer,
@@ -141,8 +145,50 @@
                 search.startup();
                 view.ui.add(search, { position: "top-right", index: 0 });//ok
             });
+            on(view,"click",function(evt){
+                var stopGeomNoZ=new Point();
+                stopGeomNoZ.x=evt.mapPoint.longitude;
+                stopGeomNoZ.y=evt.mapPoint.latitude;
+                stopGeomNoZ.z=evt.mapPoint.z;
+                stopGeomNoZ.spatialReference=4326;
+                var stopGraphic = new Graphic(stopGeomNoZ, null, { elevation: stopLocation.z });
 
 
+            });
+            var STOP_HEIGHT=50.0;
+            function addAnimatedStopLocation (location, attributes) {
+                var deferred = new Deferred();
+
+                this.setMapCursor("wait");
+
+                var localZ = view.basemapTerrain.getElevation(location);
+                var tempZ = -STOP_HEIGHT;
+
+                var updateTemp = function () {
+                    if(tempZ < 0) {
+
+                        if(this.tempStopGraphic) {
+                            this.stopsLayer.source.remove(this.tempStopGraphic);
+                        }
+                        var tempLocation = new Point({ spatialReference: location.spatialReference, x: location.x, y: location.y, z: localZ + ++tempZ });
+                        this.tempStopGraphic = new Graphic(tempLocation, null, attributes);
+                        this.stopsLayer.source.add(this.tempStopGraphic);
+
+                        window.requestAnimationFrame(updateTemp);
+                    } else {
+                        this.stopsLayer.source.add(new Graphic(location, null, attributes));
+                        this.setMapCursor("crosshair");
+                        deferred.resolve();
+                    }
+                }.bind(this);
+
+                window.requestAnimationFrame(updateTemp);
+
+                return deferred.promise;
+            }
+            function setMapCursor(cursor) {
+                view.container.style.cursor = (cursor || "default");
+            }
         });
     </script>
 </head>
@@ -153,7 +199,7 @@
         <div class="content">
             <img src="css/top.png" style="float: left;"/>
             <div class="main" style="position: absolute;left: 120px;top: -10px;">
-                <span class="title">二三维联动揭秘</span>
+                <span class="title">立柱动画</span>
             </div>
         </div>
         <button class="showcode ui-button">代码</button>

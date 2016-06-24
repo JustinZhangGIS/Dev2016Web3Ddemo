@@ -3,9 +3,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
-    <title>空白</title>
-    <!--<link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">-->
-    <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
+    <title>禁用与恢复</title>
+    <link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">-->
     <link rel="stylesheet" href="../commons/css/style4.0Demo.css">
     <link rel="stylesheet" href="../commons/css/style-rene.css">
     <link rel="stylesheet" href="../commons/libs/codemirror/codemirror.css">
@@ -17,8 +17,8 @@
     <script src="../commons/libs/codemirror/mode/jsx/jsx.js"></script>
 
     <script src="../commons/js/dojoConfig4.0.js"></script>
-    <script src="https://js.arcgis.com/4.0/"></script>
-    <!--<script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>-->
+    <!--<script src="https://js.arcgis.com/4.0/"></script>-->
+    <script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>
     <script src="../frame/js/plugin/jquery.min.js"></script>
     <style>
         #paneDiv {
@@ -30,12 +30,13 @@
             color: white;
             z-index: 100;
         }
+
+        #move1{
+
+        }
+
         .light .esri-widget,
         .light .esri-widget-button
-            /*.light .esri-menu*/
-            /*.light .esri-popup-main,*/
-            /*.light .esri-popup .esri-pointer-direction,*/
-            /*.light .esri-button */
         {
             /*background-color: lightskyblue;*/
             color: dodgerblue;
@@ -80,6 +81,8 @@
 
             "dojo/on",
             "dojo/dom",
+            "dojo/_base/declare",
+            "dojo/_base/lang",
             "dojo/domReady!"
         ], function(
                 Map,
@@ -90,10 +93,19 @@
                 Home,Search,
                 FeatureLayer,SimpleRenderer,PointSymbol3D,
                 IconSymbol3DLayer,ObjectSymbol3DLayer,
-                on,dom
+                on,dom,declare,lang
         ) {
             var iconSymbol, iconSymbolRenderer, objectSymbol,
                     objectSymbolRenderer, featureLayer;
+            var suspendNavControls=declare( null,{
+                mouseClick: "",
+                mouseClickDouble: "",
+                mouseDragLeft: "",
+                mouseDragMiddle: "",
+                mouseDragRight: "",
+                mouseWheel: ""
+            });
+            var _suspendNavControls=new suspendNavControls();
             var map = new Map({
                 basemap: {//自定义底图。
                     baseLayers:[
@@ -113,6 +125,8 @@
                     tilt: 10,
                     zoom: 6
                 },
+//                center:[116, 40],
+//                zoom:4,
                 padding: {
                     top: 110
                 }
@@ -141,6 +155,17 @@
                 search.startup();
                 view.ui.add(search, { position: "top-right", index: 0 });//ok
             });
+            view.then(function(){
+                console.log("test1");
+                _defaultNavControls=lang.clone(view.navigationControls);
+            }).then(function(){
+                on(dom.byId("_back"),"click",function(){
+                    view.navigationController.setControls(_defaultNavControls);
+                });
+                on(dom.byId("_disable"),"click",function(){
+                    view.navigationController.setControls(_suspendNavControls);
+                });
+            })
 
 
         });
@@ -153,10 +178,12 @@
         <div class="content">
             <img src="css/top.png" style="float: left;"/>
             <div class="main" style="position: absolute;left: 120px;top: -10px;">
-                <span class="title">二三维联动揭秘</span>
+                <span class="title">禁用与恢复3D地图拖动</span>
             </div>
         </div>
         <button class="showcode ui-button">代码</button>
+        <button class="showcode ui-button" id="_back">恢复</button>
+        <button class="showcode ui-button" id="_disable">禁用</button>
     </div>
     <div id="viewDiv" style="position:absolute;left: 0;top: 0; width: 100%; height: 100%;">
         <img src="css/footer.png" style="position: absolute;right: 0;bottom: 16px;;"/>

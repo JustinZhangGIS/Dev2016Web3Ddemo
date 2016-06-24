@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
-    <title>空白</title>
+    <title>弹出窗</title>
     <!--<link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">-->
     <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
     <link rel="stylesheet" href="../commons/css/style4.0Demo.css">
@@ -62,9 +62,18 @@
             "esri/WebMap",
             "esri/Graphic",
             "esri/config",
+
+
             "esri/views/MapView",
             "esri/views/SceneView",
             "esri/layers/TileLayer",
+            "esri/layers/GraphicsLayer",
+            "esri/geometry/support/webMercatorUtils",
+
+            "esri/geometry/geometryEngine",
+            "esri/geometry/Point",
+            "esri/geometry/Polyline",
+            "esri/geometry/Polygon",
 
             "esri/core/watchUtils",
             "esri/core/Scheduler",
@@ -77,6 +86,9 @@
             "esri/symbols/PointSymbol3D",
             "esri/symbols/IconSymbol3DLayer",
             "esri/symbols/ObjectSymbol3DLayer",
+            "esri/symbols/SimpleMarkerSymbol",
+            "esri/symbols/SimpleLineSymbol",
+            "esri/symbols/SimpleFillSymbol",
 
             "dojo/on",
             "dojo/dom",
@@ -84,12 +96,12 @@
         ], function(
                 Map,
                 WebMap,Graphic,esriConfig,
-                MapView, SceneView,TileLayer,
-                watchUtils,
-                Scheduler,
+                MapView, SceneView,TileLayer,GraphicsLayer,webMercatorUtils,
+                geometryEngine,Point,Polyline,Polygon,
+                watchUtils, Scheduler,
                 Home,Search,
                 FeatureLayer,SimpleRenderer,PointSymbol3D,
-                IconSymbol3DLayer,ObjectSymbol3DLayer,
+                IconSymbol3DLayer,ObjectSymbol3DLayer,SimpleMarkerSymbol,SimpleLineSymbol,SimpleFillSymbol,
                 on,dom
         ) {
             var iconSymbol, iconSymbolRenderer, objectSymbol,
@@ -105,6 +117,12 @@
                 },
                 ground: 'world-elevation'
             });
+            /*********************
+             * Add graphics layer
+             *********************/
+
+            var graphicsLayer = new GraphicsLayer({spatialReference:4326});
+            map.add(graphicsLayer);
             var view = new SceneView({
                 container: "viewDiv",
                 map: map,
@@ -116,8 +134,42 @@
                 padding: {
                     top: 110
                 }
-
             });
+
+
+
+            /***************************
+             * Add a 3D polygon graphic
+             ***************************/
+
+            var polygon = new Polygon([
+                        [116, 40,20000],
+                        [116, 41,20000],
+                        [117, 41.5,20000],
+                        [117, 40,20000],
+                        [118, 39,20000]
+                    ]),
+                    fillSymbol = new SimpleFillSymbol({
+                        color: [227, 139, 79, 0.8],
+                        outline: { // autocasts as new SimpleLineSymbol()
+                            color: [255, 255, 255],
+                            width: 1
+                        }
+                    });
+            var polygonGraphic = new Graphic({
+                geometry: polygon,
+                symbol: fillSymbol,
+                attributes :{
+                    "name":"test1",
+                    "owner":"zhangjian",
+                    "num":11
+                },
+                popupTemplate:{
+                    title: "test title: {name}",
+                    content:"owner:{owner}</br>number:{num}"
+                }
+            });
+            graphicsLayer.add(polygonGraphic);
             view.then(function(){
                 var homeBtn = new Home({
                     viewModel: {
@@ -153,7 +205,7 @@
         <div class="content">
             <img src="css/top.png" style="float: left;"/>
             <div class="main" style="position: absolute;left: 120px;top: -10px;">
-                <span class="title">二三维联动揭秘</span>
+                <span class="title">弹出窗</span>
             </div>
         </div>
         <button class="showcode ui-button">代码</button>
@@ -165,40 +217,20 @@
         </div>
         <div id="code" class="code manual right shadowed" style="width: 500px;height:600px;">
             <textarea id="codemirror">
-//使用原生符号化渲染
-objectSymbol = new PointSymbol3D({
-symbolLayers: [new ObjectSymbol3DLayer({
-    width: 70000,
-    height: 100000,
-    resource: {
-        primitive: "cone"
+var polygonGraphic = new Graphic({
+    geometry: polygon,
+    symbol: fillSymbol,
+    attributes :{
+       "name":"test1",
+       "owner":"zhangjian",
+       "num":11
     },
-        material: {
-            color: "#FFD700"
-        }
-    })]
+    popupTemplate:{
+       title: "test title: {name}",
+       content:"owner:{owner}</br>number:{num}"
+    }
 });
-objectSymbolRenderer = new SimpleRenderer({
-    symbol: objectSymbol
-});
-//创建自定义3d符号化渲染
-defineSymbol=new PointSymbol3D({
-    symbolLayers: [new ObjectSymbol3DLayer({
-        width: 70000,
-        resource: {
-            href: 'QiChe.json'
-        }
-    })]
-});
-defineSymbolRenderer = new SimpleRenderer({
-    symbol: defineSymbol
-});
-//添加要素图层并使用符号化渲染
-featureLayer = new FeatureLayer({
-    url: "...",
-    renderer: objectSymbolRenderer,
-});
-map.add(featureLayer);
+graphicsLayer.add(polygonGraphic);
             </textarea>
         </div>
     </div>

@@ -116,9 +116,9 @@
 
             });
             view.then(function(){
-                var homeBtn1 = new Home({
+                var homeBtn = new Home({
                     viewModel: {
-                        view: view1
+                        view: view
                     }
                 });
                 homeBtn.startup();
@@ -136,7 +136,7 @@
                     }
                 });
                 search.startup();
-                view.ui.add(search1, { position: "top-right", index: 0 });//ok
+                view.ui.add(search, { position: "top-right", index: 0 });//ok
             });
 
 

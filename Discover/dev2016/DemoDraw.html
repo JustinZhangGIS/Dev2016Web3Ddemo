@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>绘图</title>
+    <link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">-->
+    <link rel="stylesheet" href="../commons/css/style4.0Demo.css">
+    <link rel="stylesheet" href="../commons/css/style-rene.css">
+    <link rel="stylesheet" href="../commons/libs/codemirror/codemirror.css">
+    <link rel="stylesheet" href="../commons/libs/codemirror/monokai.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/4.0demo.css">
+    <script src="../commons/libs/codemirror/codemirror.js"></script>
+    <script src="../commons/libs/codemirror/mode/javascript/javascript.js"></script>
+    <script src="../commons/libs/codemirror/mode/jsx/jsx.js"></script>
+
+    <script src="../commons/js/dojoConfig4.0.js"></script>
+    <!--<script src="https://js.arcgis.com/4.0/"></script>-->
+    <script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>
+    <script src="../frame/js/plugin/jquery.min.js"></script>
+    <style>
+        #paneDiv {
+            position: absolute;
+            top: 70px;
+            right: 18px;
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            z-index: 100;
+        }
+        .light .esri-widget,
+        .light .esri-widget-button
+            /*.light .esri-menu*/
+            /*.light .esri-popup-main,*/
+            /*.light .esri-popup .esri-pointer-direction,*/
+            /*.light .esri-button */
+        {
+            /*background-color: lightskyblue;*/
+            color: dodgerblue;
+        }
+
+        .light .esri-widget-button:focus,
+        .light .esri-widget-button:hover,
+        .light .esri-menu li:focus,
+        .light .esri-menu li:hover {
+            /*background-color: lightskyblue;*/
+            color: dodgerblue;
+        }
+
+        .light .esri-button:focus,
+        .light .esri-button:hover {
+            color: dodgerblue;
+        }
+    </style>
+    <script>
+        var map, view;
+
+        require([
+            "esri/Map",
+            "esri/WebMap",
+            "esri/Graphic",
+            "esri/config",
+
+
+            "esri/views/MapView",
+            "esri/views/SceneView",
+            "esri/layers/TileLayer",
+            "esri/layers/GraphicsLayer",
+            "esri/geometry/support/webMercatorUtils",
+
+            "esri/geometry/geometryEngine",
+            "esri/geometry/Point",
+            "esri/geometry/Polyline",
+            "esri/geometry/Polygon",
+
+            "esri/core/watchUtils",
+            "esri/core/Scheduler",
+
+            "esri/widgets/Home",
+            "esri/widgets/Search",
+
+            "esri/layers/FeatureLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/symbols/PointSymbol3D",
+            "esri/symbols/IconSymbol3DLayer",
+            "esri/symbols/ObjectSymbol3DLayer",
+            "esri/symbols/SimpleMarkerSymbol",
+            "esri/symbols/SimpleLineSymbol",
+            "esri/symbols/SimpleFillSymbol",
+
+            "dojo/on",
+            "dojo/dom",
+            "dojo/domReady!"
+        ], function(
+                Map,
+                WebMap,Graphic,esriConfig,
+                MapView, SceneView,TileLayer,GraphicsLayer,webMercatorUtils,
+                geometryEngine,Point,Polyline,Polygon,
+                watchUtils, Scheduler,
+                Home,Search,
+                FeatureLayer,SimpleRenderer,PointSymbol3D,
+                IconSymbol3DLayer,ObjectSymbol3DLayer,SimpleMarkerSymbol,SimpleLineSymbol,SimpleFillSymbol,
+                on,dom
+        ) {
+            var iconSymbol, iconSymbolRenderer, objectSymbol,
+                    objectSymbolRenderer, featureLayer;
+            var map = new Map({
+                basemap: {//自定义底图。
+                    baseLayers:[
+                        new TileLayer({
+                            url:"http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+                            title:"午夜蓝"
+                        })
+                    ]
+                },
+                ground: 'world-elevation'
+            });
+            /*********************
+             * Add graphics layer
+             *********************/
+
+            var graphicsLayer = new GraphicsLayer({spatialReference:4326});
+            map.add(graphicsLayer);
+
+            var view = new SceneView({
+                container: "viewDiv",
+                map: map,
+                camera: {
+                    position: [116, 40, 1932626],
+                    tilt: 10,
+                    zoom: 6
+                },
+                padding: {
+                    top: 110
+                }
+
+            });
+            view.then(function(){
+                var homeBtn = new Home({
+                    viewModel: {
+                        view: view
+                    }
+                });
+                homeBtn.startup();
+                view.ui.add(homeBtn, { position: "top-left", index: 2 });
+                // INITIALIZE SEARCH //
+                var search = new Search({
+                    viewModel: {
+                        view: view,
+                        autoNavigate: true,
+                        autoSelect: true,
+                        highlightEnabled: true,
+                        labelEnabled: false,
+                        popupEnabled: false,
+                        showPopupOnSelect: false
+                    }
+                });
+                search.startup();
+                view.ui.add(search, { position: "top-right", index: 0 });//ok
+            });
+            //使用原生符号化渲染
+            objectSymbol = new PointSymbol3D({
+                symbolLayers: [new ObjectSymbol3DLayer({
+                    width: 70000,
+                    height: 100000,
+                    resource: {
+                        primitive: "cone"
+                    },
+                    material: {
+                        color: "#FFD700"
+                    }
+                })]
+            });
+            objectSymbolRenderer = new SimpleRenderer({
+                symbol: objectSymbol
+            });
+            var pointAdd1=new Point([111,38]);
+            var pointAdd2=new Point({
+                x:111,y:37,z:2000
+            });
+            var pointAdd3=new Point({
+                x:110,y:37,z:2000
+            });
+
+            var point = new Point({
+                        x: 116.5,
+                        y: 40.3,
+                        z: 10000
+                    });
+
+//                    markerSymbol = new SimpleMarkerSymbol({
+//                        color: [226, 119, 40],
+//
+//                        outline: { // autocasts as new SimpleLineSymbol()
+//                            color: [255, 255, 255],
+//                            width: 2
+//                        }
+//                    });
+
+            var pointGraphic = new Graphic({
+                geometry: point,
+                symbol: objectSymbol
+            });
+            var pointClick = new Point();
+
+            graphicsLayer.add(pointGraphic);
+            /***************************
+             * Add a 3D polygon graphic
+             ***************************/
+
+            var polygon = new Polygon([
+                        [116, 40,20000],
+                        [116, 41,20000],
+                        [117, 41.5,20000],
+                        [117, 40,20000],
+                        [118, 39,20000]
+                    ]),
+                    fillSymbol = new SimpleFillSymbol({
+                        color: [227, 139, 79, 0.8],
+                        outline: { // autocasts as new SimpleLineSymbol()
+                            color: [255, 255, 255],
+                            width: 1
+                        }
+                    });
+            var polygonGraphic = new Graphic({
+                geometry: polygon,
+                symbol: fillSymbol,
+                attributes :{
+                    "name":"test1",
+                    "owner":"zhangjian",
+                    "num":11
+                },
+                popupTemplate:{
+                    title: "test title: {name}",
+                    content:"owner:{owner}</br>number:{num}"
+
+                }
+            });
+            var polygonEmpty=new Polygon();
+            var polygon2 = new Polygon([
+                        [112, 40],
+                        [112, 41.5],
+                        [113, 41.5],
+                        [113, 40]
+                    ]);
+
+            var fillSymbol2 = new SimpleFillSymbol({
+                color: [227, 139, 79, 0.8],
+                outline: { // autocasts as new SimpleLineSymbol()
+                    color: [255, 0, 0],
+                    width: 1
+                }
+            });
+
+            var polygonGraphic2 = new Graphic({
+                geometry: polygon2,
+                symbol: fillSymbol2,
+                attributes :{
+                    "name":"test2",
+                    "owner":"zhangjian",
+                    "num":22
+                },
+                popupTemplate:{
+                    title: "test title: {name}",
+                    content:"owner:{owner}</br>number:{num}"
+
+            }
+            });
+            graphicsLayer.add(polygonGraphic);
+            graphicsLayer.add(polygonGraphic2);
+            on(dom.byId("geoMeasureArea"), "click", function() {
+                var showMessage="地理面积:"+geometryEngine.geodesicArea(polygonGraphic.geometry, "square-kilometers")+"平方千米";
+                console.log(showMessage);
+                alert(showMessage);
+                view.on("click", function(evt){
+                    // evt is the event handle returned after the event fires.
+                    console.log(evt.target);
+                    pointClick.x=evt.mapPoint.longitude;
+                    pointClick.y=evt.mapPoint.latitude;
+                    pointClick.z=evt.mapPoint.z;
+                    pointClick.spatialReference=4326;
+                    var markerSymbol = new SimpleMarkerSymbol({
+                        color: [226, 119, 40],
+                        outline: { // autocasts as new SimpleLineSymbol()
+                            color: [255, 255, 255],
+                            width: 2
+                        }
+                    });
+
+                    var pointClickGraphic = new Graphic({
+                        geometry: pointClick,
+                        symbol: markerSymbol
+                    });
+                    graphicsLayer.add(pointClickGraphic);
+                    var myGraphics=[];
+                    var h=0;
+                    evt.target.allLayerViews.items.forEach(function(layersItems,i){
+                        try{
+                            layersItems.layer.graphics.items.forEach(function(graphicsItems,j){
+                                myGraphics.push(graphicsItems);
+                                h++;
+                            })
+                        }
+                        catch(e){}
+                    });
+                    console.log(myGraphics);
+                    var measureTarget=[];
+                    var m=0;
+                    myGraphics.forEach(function(Graphics,i){
+                        if(geometryEngine.within(pointClick,Graphics.geometry)){
+                            measureTarget.push(Graphics);
+//                            Graphics.geometry.addRing(pointAdd);
+                        }
+                    });
+                    console.log(measureTarget);
+//                    var measureTarget=evt.target.allLayerViews.items[2].layer.graphics.items[0].geometry;
+                    measureTarget.forEach(function(target,i){
+                        var showTargetMessage="目标地理面积:"+geometryEngine.geodesicArea(target.geometry, "square-kilometers")+"平方千米";
+                        console.log(showTargetMessage);
+                        alert(showTargetMessage);
+                    });
+
+                });
+            });
+            on(dom.byId("draw"), "click", function() {
+                var i=0;
+                polygonEmpty.rings[0]=[];
+                view.on("click",function(evt){
+                    var drawPoint=evt.mapPoint;
+                    polygonEmpty.rings[0][i]=[drawPoint.longitude,drawPoint.latitude];
+                    graphicsLayer.remove(polygonGraphic2);
+                    polygonGraphic2 = new Graphic({
+                        geometry: polygonEmpty,
+                        symbol: fillSymbol
+                    });
+                    var markerSymbol = new SimpleMarkerSymbol({
+                        color: [226, 119, 40],
+                        outline: { // autocasts as new SimpleLineSymbol()
+                            color: [255, 255, 255],
+                            width: 2
+                        }
+                    });
+
+                    var pointClickGraphic = new Graphic({
+                        geometry: drawPoint,
+                        symbol: markerSymbol
+                    });
+                    graphicsLayer.add(pointClickGraphic);
+                    graphicsLayer.add(polygonGraphic2);
+                    i++;
+                });
+
+//                graphicsLayer.remove(polygonGraphic2);
+//                polygon2.rings[0].push([pointAdd1.x,pointAdd1.y]);
+//                polygonGraphic2 = new Graphic({
+//                    geometry: polygon2,
+//                    symbol: fillSymbol
+//                });
+//                graphicsLayer.add(polygonGraphic2);
+//                ([pointAdd1,pointAdd2,pointAdd3,pointAdd1]);
+            });
+//            on(dom.byId("planeMeasureArea"), "click", function() {
+//                console.log("平面面积:"+geometryEngine.planarArea(polygonGraphic.geometry, "acres")+"英亩");
+//            });
+
+        });
+    </script>
+</head>
+
+<body class="light">
+<div class="application">
+    <div class="applicationBar orange" style="float: left;">
+        <div class="content">
+            <img src="css/top.png" style="float: left;"/>
+            <div class="main" style="position: absolute;left: 120px;top: -10px;">
+                <span class="title">绘图</span>
+            </div>
+        </div>
+        <button class="showcode ui-button">代码</button>
+        <button class="showcode ui-button" id="geoMeasureArea">test</button>
+        <button class="showcode ui-button" id="draw">绘制面</button>
+        <!--<button class="showcode ui-button" id="planeMeasureArea">平面面积</button>-->
+
+    </div>
+    <div id="viewDiv" style="position:absolute;left: 0;top: 0; width: 100%; height: 100%;">
+        <img src="css/footer.png" style="position: absolute;right: 0;bottom: 16px;;"/>
+        <div id="layersWidgetDivWrapper" class="shadowed">
+            <div id="layersWidgetDiv"></div>
+        </div>
+        <div id="code" class="code manual right shadowed" style="width: 500px;height:600px;">
+            <textarea id="codemirror">
+
+on(dom.byId("draw"), "click", function() {
+  var i=0;
+  polygonEmpty.rings[0]=[];
+  view.on("click",function(evt){
+      var drawPoint=evt.mapPoint;
+      polygonEmpty.rings[0][i]=[drawPoint.longitude,drawPoint.latitude];
+      graphicsLayer.remove(polygonGraphic2);
+      polygonGraphic2 = new Graphic({
+          geometry: polygonEmpty,
+          symbol: fillSymbol
+      });
+      graphicsLayer.add(polygonGraphic2);
+      i++;
+});
+            </textarea>
+        </div>
+    </div>
+
+</div>
+<script src="../commons/codestuff.js"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Visualize features by type - 4.0</title>
+
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">-->
+    <!--<script src="https://js.arcgis.com/4.0"></script>-->
+    <link rel="stylesheet" href="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/esri/css/main.css">
+    <script src="http://localhost/arcgis_js_v40_api/arcgis_js_api/library/4.0/4.0/"></script>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #infoDiv {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            max-width: 300px;
+            background-color: black;
+            padding: 8px;
+            border-top-right-radius: 5px;
+            color: white;
+        }
+        .light .esri-widget,
+        .light .esri-widget-button
+            /*.light .esri-menu*/
+            /*.light .esri-popup-main,*/
+            /*.light .esri-popup .esri-pointer-direction,*/
+            /*.light .esri-button */
+        {
+            /*background-color: lightskyblue;*/
+            color: dodgerblue;
+        }
+
+        .light .esri-widget-button:focus,
+        .light .esri-widget-button:hover,
+        .light .esri-menu li:focus,
+        .light .esri-menu li:hover {
+            /*background-color: lightskyblue;*/
+            color: dodgerblue;
+        }
+
+        .light .esri-button:focus,
+        .light .esri-button:hover {
+            color: dodgerblue;
+        }
+    </style>
+
+    <script>
+        require([
+                    "esri/Map",
+                    "esri/views/MapView",
+                    "esri/layers/FeatureLayer",
+                    "esri/renderers/UniqueValueRenderer",
+                    "esri/symbols/SimpleLineSymbol",
+                    "esri/widgets/Legend",
+                    "esri/widgets/Home",
+                    "esri/widgets/Search",
+                    "esri/widgets/Compass",
+                    "dojo/domReady!"
+                ],
+                function(
+                        Map, MapView, FeatureLayer, UniqueValueRenderer,
+                        SimpleLineSymbol, Legend,Home,Search,Compass
+                ) {
+
+                    /******************************************************************
+                     *
+                     * Define symbols for each unique type. One each for freeways,
+                     * highways, and other major roads
+                     *
+                     ******************************************************************/
+
+                    // Symbol for freeways
+                    var fwySym = new SimpleLineSymbol({
+                        color: "#FFAA00",
+                        width: 10,
+                        style: "solid"
+                    });
+
+                    // Symbol for U.S. Highways
+                    var hwySym = new SimpleLineSymbol({
+                        color: "#DF73FF",
+                        width: 7,
+                        style: "solid"
+                    });
+
+                    // Symbol for other major highways
+                    var otherSym = new SimpleLineSymbol({
+                        color: "#EBEBEB",
+                        width: 3,
+                        style: "short-dot"
+                    });
+
+                    /******************************************************************
+                     *
+                     * Set each unique value directly in the renderer's constructor.
+                     * At least one field must be used (in this case the "CLASS" field).
+                     * The label property of each unique value will be used to indicate
+                     * the field value and symbol in the legend.
+                     *
+                     ******************************************************************/
+
+                    var hwyRenderer = new UniqueValueRenderer({
+                        defaultSymbol: otherSym,
+                        defaultLabel: "Other major roads",
+                        field: "CLASS",
+                        uniqueValueInfos: [
+                            {
+                                value: "I", // code for interstates/freeways
+                                symbol: fwySym,
+                                label: "Interstate"
+                            }, {
+                                value: "U", // code for U.S. highways
+                                symbol: hwySym,
+                                label: "US Highway"
+                            }]
+                    });
+
+                    // Set the renderer on the layer
+                    var hwyLyr = new FeatureLayer({
+                        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Freeway_System/FeatureServer/2",
+                        renderer: hwyRenderer,
+                        popupTemplate: {
+                            content: "{*}"
+                        }
+                    });
+
+                    // Add the layer to the map
+                    var map = new Map({
+                        basemap: "dark-gray",
+                        layers: [hwyLyr]
+                    });
+
+                    var view = new MapView({
+                        container: "viewDiv",
+                        map: map,
+                        center: [-118.2438934, 34.058481],
+                        zoom: 12
+                    });
+
+                    /******************************************************************
+                     *
+                     * Add layers to layerInfos on the legend
+                     *
+                     ******************************************************************/
+
+
+                    view.then(function(){
+                        var homeBtn = new Home({
+                            viewModel: {
+                                view: view
+                            }
+                        });
+                        homeBtn.startup();
+                        view.ui.add(homeBtn, { position: "top-left", index: 1 });
+                        // INITIALIZE SEARCH //
+                        var search = new Search({
+                            viewModel: {
+                                view: view,
+                                autoNavigate: true,
+                                autoSelect: true,
+                                highlightEnabled: true,
+                                labelEnabled: false,
+                                popupEnabled: false,
+                                showPopupOnSelect: false
+                            }
+                        });
+                        search.startup();
+                        view.ui.add(search, { position: "top-right", index: 0 });//ok
+                        var compass = new Compass({
+                            view: view
+                        });
+                        compass.startup();
+                        view.ui.add(compass, { position: "top-left", index: 3 });
+                        var legend = new Legend({
+                            view: view,
+                            layerInfos: [
+                                {
+                                    layer: hwyLyr,
+                                    title: "Major Roads"
+                                }]
+                        }, "infoDiv");
+                        legend.startup();
+                        view.ui.add(legend, "bottom-left");
+
+                    });
+                });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+<div id="infoDiv"></div>
+</body>
+
+</html>

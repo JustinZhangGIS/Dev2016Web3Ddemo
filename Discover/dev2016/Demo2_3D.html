@@ -54,9 +54,11 @@
             "esri/WebMap",
             "esri/Graphic",
             "esri/config",
+            "esri/Ground",
             "esri/views/MapView",
             "esri/views/SceneView",
             "esri/layers/TileLayer",
+            "esri/layers/ElevationLayer",
 
             "esri/core/watchUtils",
             "esri/core/Scheduler",
@@ -67,8 +69,8 @@
             "dojo/domReady!"
         ], function(
                 Map,
-                WebMap,Graphic,esriConfig,
-                MapView, SceneView,TileLayer,
+                WebMap,Graphic,esriConfig,Ground,
+                MapView, SceneView,TileLayer,ElevationLayer,
                 watchUtils,
                 Scheduler,
                 Home,Search
@@ -79,19 +81,25 @@
 //                ground: 'world-elevation'
 //            });
             esriConfig.portalUrl = "http://www.arcgis.com/";
+            var worldElevation = ElevationLayer({
+                url: "//elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"
+            });
+            var customElevation = ElevationLayer({
+                url: "http://my.server.com/arcgis/rest/service/MyElevationService/ImageServer"
+            });
             var webMap = new WebMap({
                 portalItem: { // autocasts as new PortalItem()
                     id:'d7134c651d384ba7981b74c360c8b712'
                 },
+                ground: new Ground({
+                    layers: [ worldElevation, customElevation ]
+                }),
                 basemap: {//自定义底图。
                     baseLayers:[
                         new TileLayer({
-                            url:"http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-                            title:"午夜蓝"
-                        })
-                    ]
-                }
-
+                            url:"http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetColor/MapServer",
+                            title:"彩色版"
+                })]}
             });
             view1 = new MapView({
                 id: 'view1',
